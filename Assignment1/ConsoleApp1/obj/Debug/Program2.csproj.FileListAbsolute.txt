@@ -1,0 +1,6 @@
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\ConsoleApp1\bin\Debug\ConsoleApp1.exe.config
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\ConsoleApp1\bin\Debug\ConsoleApp1.exe
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\ConsoleApp1\bin\Debug\ConsoleApp1.pdb
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\ConsoleApp1\obj\Debug\Program2.csprojResolveAssemblyReference.cache
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\ConsoleApp1\obj\Debug\ConsoleApp1.exe
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\ConsoleApp1\obj\Debug\ConsoleApp1.pdb

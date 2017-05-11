@@ -1,0 +1,9 @@
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\bin\Debug\Program1.exe.config
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\bin\Debug\Program1.exe
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\bin\Debug\Program1.pdb
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\obj\Debug\Program1.csprojResolveAssemblyReference.cache
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\obj\Debug\Program1.Form1.resources
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\obj\Debug\Program1.Properties.Resources.resources
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\obj\Debug\Program1.csproj.GenerateResource.Cache
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\obj\Debug\Program1.exe
+c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\obj\Debug\Program1.pdb
