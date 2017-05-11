@@ -104,7 +104,7 @@
             this.gb1.Controls.Add(this.btnSubmit1);
             this.gb1.Location = new System.Drawing.Point(12, 12);
             this.gb1.Name = "gb1";
-            this.gb1.Size = new System.Drawing.Size(123, 172);
+            this.gb1.Size = new System.Drawing.Size(125, 180);
             this.gb1.TabIndex = 6;
             this.gb1.TabStop = false;
             this.gb1.Text = "OK";
@@ -114,9 +114,9 @@
             this.gb2.Controls.Add(this.label2);
             this.gb2.Controls.Add(this.txtBox2);
             this.gb2.Controls.Add(this.btnSubmit2);
-            this.gb2.Location = new System.Drawing.Point(154, 12);
+            this.gb2.Location = new System.Drawing.Point(157, 12);
             this.gb2.Name = "gb2";
-            this.gb2.Size = new System.Drawing.Size(123, 172);
+            this.gb2.Size = new System.Drawing.Size(125, 180);
             this.gb2.TabIndex = 7;
             this.gb2.TabStop = false;
             this.gb2.Text = "OK, CANCEL";
@@ -126,9 +126,9 @@
             this.gb3.Controls.Add(this.label3);
             this.gb3.Controls.Add(this.txtBox3);
             this.gb3.Controls.Add(this.btnSubmit3);
-            this.gb3.Location = new System.Drawing.Point(291, 12);
+            this.gb3.Location = new System.Drawing.Point(292, 12);
             this.gb3.Name = "gb3";
-            this.gb3.Size = new System.Drawing.Size(126, 172);
+            this.gb3.Size = new System.Drawing.Size(125, 180);
             this.gb3.TabIndex = 8;
             this.gb3.TabStop = false;
             this.gb3.Text = "YES, NO";
@@ -138,7 +138,7 @@
             this.lblResult.AutoSize = true;
             this.lblResult.Location = new System.Drawing.Point(157, 196);
             this.lblResult.Name = "lblResult";
-            this.lblResult.Size = new System.Drawing.Size(0, 13);
+            this.lblResult.Size = new System.Drawing.Size(0, 50);
             this.lblResult.TabIndex = 9;
             this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 

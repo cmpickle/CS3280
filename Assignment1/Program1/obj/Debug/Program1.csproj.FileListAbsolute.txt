@@ -7,3 +7,12 @@ c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\ob
 c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\obj\Debug\Program1.csproj.GenerateResource.Cache
 c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\obj\Debug\Program1.exe
 c:\users\cmpic_000\documents\visual studio 2017\Projects\Assignment1\Program1\obj\Debug\Program1.pdb
+C:\Users\cmpic_000\Source\Repos\CS3820\Assignment1\Program1\bin\Debug\Program1.exe.config
+C:\Users\cmpic_000\Source\Repos\CS3820\Assignment1\Program1\bin\Debug\Program1.exe
+C:\Users\cmpic_000\Source\Repos\CS3820\Assignment1\Program1\bin\Debug\Program1.pdb
+C:\Users\cmpic_000\Source\Repos\CS3820\Assignment1\Program1\obj\Debug\Program1.csprojResolveAssemblyReference.cache
+C:\Users\cmpic_000\Source\Repos\CS3820\Assignment1\Program1\obj\Debug\Program1.Form1.resources
+C:\Users\cmpic_000\Source\Repos\CS3820\Assignment1\Program1\obj\Debug\Program1.Properties.Resources.resources
+C:\Users\cmpic_000\Source\Repos\CS3820\Assignment1\Program1\obj\Debug\Program1.csproj.GenerateResource.Cache
+C:\Users\cmpic_000\Source\Repos\CS3820\Assignment1\Program1\obj\Debug\Program1.exe
+C:\Users\cmpic_000\Source\Repos\CS3820\Assignment1\Program1\obj\Debug\Program1.pdb
