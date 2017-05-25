@@ -11,29 +11,87 @@ using System.Windows.Forms;
 
 namespace Assignment2
 {
+    /// <summary>
+    /// A game where the user can guess what value will be rolled by a die. 
+    /// The statistics are displayed on the screen to the user. These statics 
+    /// can be reset with a reset button.
+    /// </summary>
     public partial class DieGuessGame : Form
     {
+        /// <summary>
+        /// The number of games played
+        /// </summary>
         int gamesPlayed = 0;
+        /// <summary>
+        /// The number of games the user guessed the correct value
+        /// </summary>
         int gamesWon = 0;
+        /// <summary>
+        /// The number of games the user guessed the incorrect value
+        /// </summary>
         int gamesLost = 0;
+        /// <summary>
+        /// The number of times that one was rolled
+        /// </summary>
         int onesRolled = 0;
+        /// <summary>
+        /// The number of times that two was rolled
+        /// </summary>
         int twosRolled = 0;
+        /// <summary>
+        /// The number of times that three was rolled
+        /// </summary>
         int threesRolled = 0;
+        /// <summary>
+        /// The number of times that four was rolled
+        /// </summary>
         int foursRolled = 0;
+        /// <summary>
+        /// The number of times that five was rolled
+        /// </summary>
         int fivesRolled = 0;
+        /// <summary>
+        /// The number of times that six was rolled
+        /// </summary>
         int sixesRolled = 0;
+        /// <summary>
+        /// The number of times that one was guessed by the user
+        /// </summary>
         int onesGuessed = 0;
+        /// <summary>
+        /// The number of times that two was guessed by the user
+        /// </summary>
         int twosGuessed = 0;
+        /// <summary>
+        /// The number of times that three was guessed by the user
+        /// </summary>
         int threesGuessed = 0;
+        /// <summary>
+        /// The number of times that four was guessed by the user
+        /// </summary>
         int foursGuessed = 0;
+        /// <summary>
+        /// The number of times taht five was guessed by the user
+        /// </summary>
         int fivesGuessed = 0;
+        /// <summary>
+        /// The number of times that six was guessed by the user
+        /// </summary>
         int sixesGuessed = 0;
 
+        /// <summary>
+        /// The default public constructor for the die game
+        /// </summary>
         public DieGuessGame()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// The "Button Roll" on click listener that simulates a dice roll
+        /// </summary>
+        /// <param name="sender">The sender param</param>
+        /// <param name="e">The event that triggered the click</param>
         private void btnRoll_Click(object sender, EventArgs e)
         {
             int rollGuess;
@@ -53,6 +111,11 @@ namespace Assignment2
             DisplayResult(rollGuess, rollResult);
         }
 
+        /// <summary>
+        /// The "Reset" on click listener that resets the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnReset_Click(object sender, EventArgs e)
         {
             gamesPlayed = 0;
@@ -79,6 +142,11 @@ namespace Assignment2
     ".00%\t\t0\n4\t0\t\t0.00%\t\t0\n5\t0\t\t0.00%\t\t0\n6\t0\t\t0.00%\t\t0";
         }
 
+        /// <summary>
+        /// Helper function that diplays the statistical results to the txtStats box
+        /// </summary>
+        /// <param name="rollGuess">The users guessed value</param>
+        /// <param name="rollResult">The actual rolled value</param>
         private void DisplayResult(int rollGuess, int rollResult)
         {
             lblTimesPlayedVal.Text = "" + (++gamesPlayed);
@@ -101,6 +169,11 @@ namespace Assignment2
                 sixesRolled, ((double)sixesRolled / gamesPlayed) * 100, sixesGuessed);
         }
 
+        /// <summary>
+        /// Helper function that updates the global statistical variables
+        /// </summary>
+        /// <param name="rollGuess">The value the user guessed</param>
+        /// <param name="rollResult">The actual rolled value</param>
         private void UpdateStats(int rollGuess, int rollResult)
         {
             switch (rollResult)
@@ -148,6 +221,10 @@ namespace Assignment2
             }
         }
 
+        /// <summary>
+        /// Helper function that simulates a dice roll
+        /// </summary>
+        /// <returns>The rolled value</returns>
         private int RollDice()
         {
             int rollResult = 0;
