@@ -20,9 +20,133 @@ namespace Assignment3
     /// </summary>
     public partial class MainWindow : Window
     {
+        String[] studentNames;
+        int[,] studentScores;
+        int activeStudent = 0;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnSubmitCounts_Click(object sender, RoutedEventArgs e)
+        {
+            int numStudents;
+            int numAssignments;
+
+            if(!int.TryParse(txtNumberOfStudents.Text, out numStudents) || numStudents > 10 || numStudents < 1)
+            {
+                lblStudentsNumError.Visibility = Visibility.Visible;
+                return;
+            } else
+            {
+                lblStudentsNumError.Visibility = Visibility.Collapsed;
+            }
+
+            if(!int.TryParse(txtNumberOfAssignments.Text, out numAssignments) || numAssignments > 99 || numAssignments < 1)
+            {
+                lblAssignmentsNumError.Visibility = Visibility.Visible;
+                return;
+            } else
+            {
+                lblAssignmentsNumError.Visibility = Visibility.Collapsed;
+            }
+
+            studentNames = new String[numStudents];
+            for(int i=0; i<numStudents; ++i)
+            {
+                studentNames[i] = String.Format("Student #{0}", i + 1);
+            }
+
+            studentScores = new int[numStudents, numAssignments];
+            for(int i=0; i<numStudents; ++i)
+            {
+                for(int j=0; j<numAssignments; ++j)
+                {
+                    studentScores[i, j] = 0;
+                }
+            }
+
+            lblStudentName.Content = studentNames[0];
+            lblEnterAssignmentNum.Content = String.Format("Enter Assignment Number (1-{0}):", numAssignments);
+
+            EnableStudentSections();
+        }
+
+        private void btnFirstStudent_Click(object sender, RoutedEventArgs e)
+        {
+            activeStudent = 0;
+
+            updateStudentNamelbl();
+        }
+
+        private void btnPrevStudent_Click(object sender, RoutedEventArgs e)
+        {
+            if(activeStudent<1)
+            {
+                return;
+            }
+            --activeStudent;
+
+            updateStudentNamelbl();
+        }
+
+        private void btnNextStudent_Click(object sender, RoutedEventArgs e)
+        {
+            if(activeStudent>studentNames.Length-2)  //one less for indices and one more less because the last element shouldn't go to the "next" student
+            {
+                return;
+            }
+            ++activeStudent;
+
+            updateStudentNamelbl();
+        }
+
+        private void btnLastStudent_Click(object sender, RoutedEventArgs e)
+        {
+            activeStudent = studentNames.Length - 1; // -1 since it is indices 
+
+            updateStudentNamelbl();
+        }
+
+        private void btnSaveName_Click(object sender, RoutedEventArgs e)
+        {
+            studentNames[activeStudent] = txtStudentName.Text;
+
+            txtStudentName.Text = "";
+
+            updateStudentNamelbl();
+        }
+
+        private void EnableStudentSections()
+        {
+            btnFirstStudent.IsEnabled = true;
+            btnPrevStudent.IsEnabled = true;
+            btnNextStudent.IsEnabled = true;
+            btnLastStudent.IsEnabled = true;
+            txtStudentName.IsEnabled = true;
+            btnSaveName.IsEnabled = true;
+            txtEnterAssignmentNum.IsEnabled = true;
+            txtAssignmentScore.IsEnabled = true;
+            btnDisplayScores.IsEnabled = true;
+        }
+
+        private void DisableStudentSections()
+        {
+            btnFirstStudent.IsEnabled = false;
+            btnPrevStudent.IsEnabled = false;
+            btnNextStudent.IsEnabled = false;
+            btnLastStudent.IsEnabled = false;
+            txtStudentName.IsEnabled = false;
+            btnSaveName.IsEnabled = false;
+            txtEnterAssignmentNum.IsEnabled = false;
+            txtAssignmentScore.IsEnabled = false;
+            btnDisplayScores.IsEnabled = false;
+        }
+
+        private void updateStudentNamelbl()
+        {
+            lblStudentName.Content = studentNames[activeStudent];
         }
     }
 }
