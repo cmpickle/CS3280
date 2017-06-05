@@ -20,15 +20,20 @@ namespace Assignment3
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Class level variables
         String[] studentNames;
         int[,] studentScores;
         int activeStudent = 0;
+        #endregion
 
+        #region Constructor
         public MainWindow()
         {
             InitializeComponent();
         }
+        #endregion
 
+        #region OnClickListeners
         private void btnSubmitCounts_Click(object sender, RoutedEventArgs e)
         {
             int numStudents;
@@ -67,8 +72,7 @@ namespace Assignment3
                 }
             }
 
-            lblStudentName.Content = studentNames[0];
-            lblEnterAssignmentNum.Content = String.Format("Enter Assignment Number (1-{0}):", numAssignments);
+            AddHeaderToDisplayScores();
 
             EnableStudentSections();
         }
@@ -118,6 +122,70 @@ namespace Assignment3
             updateStudentNamelbl();
         }
 
+        private void btnSaveScore_Click(object sender, RoutedEventArgs e)
+        {
+            int assignNum;
+            int assignScore;
+            if(!int.TryParse(txtEnterAssignmentNum.Text, out assignNum) || assignNum < 1 || assignNum > studentScores.GetLength(1))
+            {
+                lblErrorEnterAssignmentNum.Visibility = Visibility.Visible;
+                return;
+            }
+            lblErrorEnterAssignmentNum.Visibility = Visibility.Collapsed;
+
+            if(!int.TryParse(txtAssignmentScore.Text, out assignScore) || assignScore < 0 || assignScore > 100)
+            {
+                lblErrorEnterAssignmentScore.Visibility = Visibility.Visible;
+                return;
+            }
+            lblErrorEnterAssignmentScore.Visibility = Visibility.Collapsed;
+
+            studentScores[activeStudent, assignNum-1] = assignScore;
+
+            txtEnterAssignmentNum.Text = "";
+            txtAssignmentScore.Text = "";
+        }
+
+        private void btnDisplayScores_Click(object sender, RoutedEventArgs e)
+        {
+            String display = txtDisplayedScores.Text;
+            double sum = 0;
+
+            for(int i=0; i<studentNames.Length; ++i)
+            {
+                display += Environment.NewLine;
+
+                display += studentNames[i] + "\t\t";
+
+                for(int j=0; j<studentScores.GetLength(1); ++j)
+                {
+                    display += studentScores[i,j] + "\t";
+                    sum += studentScores[i, j];
+                }
+
+                display += (sum / studentScores.GetLength(1));
+            }
+
+            txtDisplayedScores.Text = display;
+        }
+        #endregion
+
+        #region Helper Methods
+        private void AddHeaderToDisplayScores()
+        {
+            lblStudentName.Content = studentNames[0];
+            lblEnterAssignmentNum.Content = String.Format("Enter Assignment Number (1-{0}):", studentScores.GetLength(1));
+
+            String display = "STUDENT\t\t";
+            for (int i = 0; i < studentNames.Length; ++i)
+            {
+                display += "#" + (i + 1) + "\t";
+            }
+            display += "AVG\tGRADE";
+
+            txtDisplayedScores.Text = display;
+        }
+
         private void EnableStudentSections()
         {
             btnFirstStudent.IsEnabled = true;
@@ -128,6 +196,7 @@ namespace Assignment3
             btnSaveName.IsEnabled = true;
             txtEnterAssignmentNum.IsEnabled = true;
             txtAssignmentScore.IsEnabled = true;
+            btnSaveScore.IsEnabled = true;
             btnDisplayScores.IsEnabled = true;
         }
 
@@ -141,6 +210,7 @@ namespace Assignment3
             btnSaveName.IsEnabled = false;
             txtEnterAssignmentNum.IsEnabled = false;
             txtAssignmentScore.IsEnabled = false;
+            btnSaveScore.IsEnabled = false;
             btnDisplayScores.IsEnabled = false;
         }
 
@@ -148,5 +218,6 @@ namespace Assignment3
         {
             lblStudentName.Content = studentNames[activeStudent];
         }
+        #endregion
     }
 }

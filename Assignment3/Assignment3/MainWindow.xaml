@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Assignment3"
         mc:Ignorable="d"
-        Title="Scores" Height="580" Width="525" ResizeMode="NoResize">
+        Title="Scores" Height="600" Width="525" ResizeMode="NoResize">
     <Grid VerticalAlignment="Top" Height="Auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="86.483" />
@@ -68,7 +68,7 @@
 
         <GroupBox Name="gbStudent" Header="Student" Grid.Row="2" Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal">
-                <Label Name="lblStudentName" Content="Student #{0}" Margin="10"/>
+                <Label Name="lblStudentName" Content="Student #1" Margin="10"/>
                 <TextBox Name="txtStudentName" Width="240" Margin="10" IsEnabled="False" />
                 <Button Name="btnSaveName" Content="Save Name" Margin="10" IsEnabled="False" Click="btnSaveName_Click" />
             </StackPanel>
@@ -78,7 +78,7 @@
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Label Name="lblEnterAssignmentNum" Content="Enter Assignment Number (1-{0}):" Margin="5"/>
+                        <Label Name="lblEnterAssignmentNum" Content="Enter Assignment Number (1-5):" Margin="5"/>
                         <TextBox Name="txtEnterAssignmentNum" Width="60" Margin="5" IsEnabled="False" MaxLength="2" />
                     </StackPanel>
                     <Label Name="lblErrorEnterAssignmentNum" Visibility="Collapsed" Foreground="Red" Content="*Enter an assignment number from 1 to {0}" />
@@ -94,12 +94,12 @@
         </GroupBox>
 
         <StackPanel Grid.Row="4" HorizontalAlignment="Center" Grid.Column="1" Margin="113.517,0,201,0">
-            <Button Name="btnDisplayScores" Content="Display Scores" Height="Auto" Width="90" Margin="10" IsEnabled="False" />
+            <Button Name="btnDisplayScores" Content="Display Scores" Height="Auto" Width="90" Margin="10" IsEnabled="False" Click="btnDisplayScores_Click" />
         </StackPanel>
 
-        <StackPanel Width="510" Height="Auto" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,0,1,0">
-            <TextBlock Name="txtDisplayedScores" Height="150" HorizontalAlignment="Stretch" Margin="10" Text="STUDENT&#x09;&#x09;#1&#x09;#2&#x09;#3&#x09;#4&#x09;#5&#x09;AVG&#x09;GRADE" />
-        </StackPanel>
+        <ScrollViewer Width="510" Height="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,0,1,0">
+            <TextBlock Name="txtDisplayedScores" Height="150" HorizontalAlignment="Stretch" Margin="10" Text="STUDENT&#x09;&#x09;#1&#x09;#2&#x09;#3&#x09;#4&#x09;#5&#x09;AVG&#x09;GRADE" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+        </ScrollViewer>
 
     </Grid>
 
