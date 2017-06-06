@@ -13,20 +13,38 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+/// <summary>
+/// This program is used to store students names and assignment scores. You may enter each
+/// value and display in in a scrollable text box. This for may be reset with the reset 
+/// button.
+/// </summary>
 namespace Assignment3
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// This contains the arrays for the data storage as well as the onClick listeners.
     /// </summary>
     public partial class MainWindow : Window
     {
         #region Class level variables
+        /// <summary>
+        /// The names of the students
+        /// </summary>
         String[] studentNames;
+        /// <summary>
+        /// The scores of the students stored in each student's index
+        /// </summary>
         int[,] studentScores;
+        /// <summary>
+        /// The index of the student that is currently being edited
+        /// </summary>
         int activeStudent = 0;
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// The Constructor to initiallize the WPF application
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -34,8 +52,18 @@ namespace Assignment3
         #endregion
 
         #region OnClickListeners
+        /// <summary>
+        /// The onClick listenter for "Submit Counts"
+        /// 
+        /// This submits the numer of students and assignments and updates the backing
+        /// data structures as well as the gui to match the entered values.
+        /// </summary>
+        /// <param name="sender">The click sender</param>
+        /// <param name="e">The event arg</param>
         private void btnSubmitCounts_Click(object sender, RoutedEventArgs e)
         {
+            activeStudent = 0;
+            lblStudentName.Content = "Student #1";
             int numStudents;
             int numAssignments;
 
@@ -72,11 +100,30 @@ namespace Assignment3
                 }
             }
 
-            AddHeaderToDisplayScores();
+            UpdateFieldsForCount();
 
             EnableStudentSections();
         }
 
+        /// <summary>
+        /// The onClick listenter for "Reset Scores"
+        /// 
+        /// This Resets the form and backing data
+        /// </summary>
+        /// <param name="sender">The click sender</param>
+        /// <param name="e">The event arg</param>
+        private void btnResetScores_Click(object sender, RoutedEventArgs e)
+        {
+            ResetForm();
+        }
+
+        /// <summary>
+        /// The onClick listenter for "First Student"
+        /// 
+        /// This sets the active student index to 0 ie the first student
+        /// </summary>
+        /// <param name="sender">The click sender</param>
+        /// <param name="e">The event arg</param>
         private void btnFirstStudent_Click(object sender, RoutedEventArgs e)
         {
             activeStudent = 0;
@@ -84,6 +131,13 @@ namespace Assignment3
             updateStudentNamelbl();
         }
 
+        /// <summary>
+        /// The onClick listenter for "Prev Student"
+        /// 
+        /// This sets the active student index to one less unless on the first student
+        /// </summary>
+        /// <param name="sender">The click sender</param>
+        /// <param name="e">The event arg</param>
         private void btnPrevStudent_Click(object sender, RoutedEventArgs e)
         {
             if(activeStudent<1)
@@ -95,6 +149,13 @@ namespace Assignment3
             updateStudentNamelbl();
         }
 
+        /// <summary>
+        /// The onClick listenter for "Next Student"
+        /// 
+        /// This sets the active student index to one more unless on the last student
+        /// </summary>
+        /// <param name="sender">The click sender</param>
+        /// <param name="e">The event arg</param>
         private void btnNextStudent_Click(object sender, RoutedEventArgs e)
         {
             if(activeStudent>studentNames.Length-2)  //one less for indices and one more less because the last element shouldn't go to the "next" student
@@ -106,6 +167,13 @@ namespace Assignment3
             updateStudentNamelbl();
         }
 
+        /// <summary>
+        /// The onClick listenter for "Last Student"
+        /// 
+        /// This sets the active student index to the last student
+        /// </summary>
+        /// <param name="sender">The click sender</param>
+        /// <param name="e">The event arg</param>
         private void btnLastStudent_Click(object sender, RoutedEventArgs e)
         {
             activeStudent = studentNames.Length - 1; // -1 since it is indices 
@@ -113,6 +181,13 @@ namespace Assignment3
             updateStudentNamelbl();
         }
 
+        /// <summary>
+        /// The onClick listenter for "Save Name"
+        /// 
+        /// This saves the name for the current active student
+        /// </summary>
+        /// <param name="sender">The click sender</param>
+        /// <param name="e">The event arg</param>
         private void btnSaveName_Click(object sender, RoutedEventArgs e)
         {
             studentNames[activeStudent] = txtStudentName.Text;
@@ -122,6 +197,13 @@ namespace Assignment3
             updateStudentNamelbl();
         }
 
+        /// <summary>
+        /// The onClick listenter for "Save Score"
+        /// 
+        /// This sets the specified score for the current active student
+        /// </summary>
+        /// <param name="sender">The click sender</param>
+        /// <param name="e">The event arg</param>
         private void btnSaveScore_Click(object sender, RoutedEventArgs e)
         {
             int assignNum;
@@ -146,13 +228,23 @@ namespace Assignment3
             txtAssignmentScore.Text = "";
         }
 
+        /// <summary>
+        /// The onClick listenter for "Display Score"
+        /// 
+        /// This displays all the scores for each student as well as their average
+        /// score and letter grade
+        /// </summary>
+        /// <param name="sender">The click sender</param>
+        /// <param name="e">The event arg</param>
         private void btnDisplayScores_Click(object sender, RoutedEventArgs e)
         {
+            AddHeaderToDisplayScores();
+
             String display = txtDisplayedScores.Text;
-            double sum = 0;
 
             for(int i=0; i<studentNames.Length; ++i)
             {
+                double sum = 0;
                 display += Environment.NewLine;
 
                 display += studentNames[i] + "\t\t";
@@ -163,7 +255,48 @@ namespace Assignment3
                     sum += studentScores[i, j];
                 }
 
-                display += (sum / studentScores.GetLength(1));
+                double average = (sum / studentScores.GetLength(1));
+                display += average + "\t";
+
+                String letterGrade;
+                if(average >= 93)
+                {
+                    letterGrade = "A";
+                } else if(average >= 90)
+                {
+                    letterGrade = "A-";
+                } else if(average >= 87)
+                {
+                    letterGrade = "B+";
+                } else if(average >= 83)
+                {
+                    letterGrade = "B";
+                } else if(average >= 80)
+                {
+                    letterGrade = "B-";
+                } else if(average >= 77)
+                {
+                    letterGrade = "C=";
+                } else if(average >= 73)
+                {
+                    letterGrade = "C";
+                } else if(average >= 70)
+                {
+                    letterGrade = "C-";
+                } else if(average >= 67)
+                {
+                    letterGrade = "D+";
+                } else if(average >= 63)
+                {
+                    letterGrade = "D";
+                } else if(average >= 60)
+                {
+                    letterGrade = "D-";
+                } else
+                {
+                    letterGrade = "F";
+                }
+                display += letterGrade;
             }
 
             txtDisplayedScores.Text = display;
@@ -171,13 +304,29 @@ namespace Assignment3
         #endregion
 
         #region Helper Methods
-        private void AddHeaderToDisplayScores()
+        /// <summary>
+        /// Updates all of the text fields that are effected by either the student
+        /// count or the assignment count
+        /// </summary>
+        private void UpdateFieldsForCount()
         {
             lblStudentName.Content = studentNames[0];
             lblEnterAssignmentNum.Content = String.Format("Enter Assignment Number (1-{0}):", studentScores.GetLength(1));
+            lblErrorEnterAssignmentNum.Content = String.Format("*Enter an assignment number from 1 to {0}", studentScores.GetLength(1));
 
+            AddHeaderToDisplayScores();
+        }
+
+        /// <summary>
+        /// Clears the DisplayScores text box and adds a new header with the
+        /// appropriate number of assignments
+        /// 
+        /// *studentScores CANNOT BE NULL
+        /// </summary>
+        private void AddHeaderToDisplayScores()
+        {
             String display = "STUDENT\t\t";
-            for (int i = 0; i < studentNames.Length; ++i)
+            for (int i = 0; i < studentScores.GetLength(1); ++i)
             {
                 display += "#" + (i + 1) + "\t";
             }
@@ -186,6 +335,10 @@ namespace Assignment3
             txtDisplayedScores.Text = display;
         }
 
+        /// <summary>
+        /// Enables the bottom sections that are dependant on the 
+        /// number of students and assignments
+        /// </summary>
         private void EnableStudentSections()
         {
             btnFirstStudent.IsEnabled = true;
@@ -200,6 +353,10 @@ namespace Assignment3
             btnDisplayScores.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Disables the bottom sections that are dependant on the
+        /// number of students and assignments
+        /// </summary>
         private void DisableStudentSections()
         {
             btnFirstStudent.IsEnabled = false;
@@ -214,9 +371,39 @@ namespace Assignment3
             btnDisplayScores.IsEnabled = false;
         }
 
+        /// <summary>
+        /// Update the student name label to the active student
+        /// </summary>
         private void updateStudentNamelbl()
         {
             lblStudentName.Content = studentNames[activeStudent];
+        }
+
+        /// <summary>
+        /// Resets the entire program to its starting state
+        /// </summary>
+        private void ResetForm()
+        {
+            studentNames = null;
+            studentScores = null;
+            activeStudent = 0;
+
+            DisableStudentSections();
+
+            lblStudentName.Content = "Student #1";
+            lblEnterAssignmentNum.Content = "Enter Assignment Number (1-5):";
+            txtDisplayedScores.Text = "STUDENT\t\t#1\t#2\t#3\t#4\t#5\tAVG\tGRADE";
+
+            txtNumberOfStudents.Text = "";
+            txtNumberOfAssignments.Text = "";
+            txtStudentName.Text = "";
+            txtEnterAssignmentNum.Text = "";
+            txtAssignmentScore.Text = "";
+
+            lblStudentsNumError.Visibility = Visibility.Collapsed;
+            lblAssignmentsNumError.Visibility = Visibility.Collapsed;
+            lblErrorEnterAssignmentNum.Visibility = Visibility.Collapsed;
+            lblErrorEnterAssignmentScore.Visibility = Visibility.Collapsed;
         }
         #endregion
     }

@@ -50,7 +50,7 @@
 
             </GroupBox>
 
-            <Button Name="btnResetScores" Content="Reset Scores" Height="20" Margin="20, 0"/>
+            <Button Name="btnResetScores" Content="Reset Scores" Height="20" Margin="20, 0" Click="btnResetScores_Click"/>
 
         </StackPanel>
 
