@@ -44,27 +44,29 @@ namespace Assignment4
                 return;
             }
         }
-        
-        private void btnPos_EnabledChanged(object sender, System.EventArgs e)
-        {
 
-        }
-
-        private void BtnMouseEnter(object sender, MouseEventArgs e)
-        {
-            Button btnSender = (Button)sender;
-        }
-
+        /// <summary>
+        /// The onClick listener for the Start Game button
+        /// </summary>
+        /// <param name="sender">The button clicked</param>
+        /// <param name="e">Event args</param>
         private void btnStartGame_Click(object sender, RoutedEventArgs e)
         {
             tickTacToe.StartGame();
         }
 
+        /// <summary>
+        /// Updates the Game status text box
+        /// </summary>
+        /// <param name="status"></param>
         public void UpdateGameStatus(string status)
         {
             txtGameStatus.Text = status;
         }
 
+        /// <summary>
+        /// Resets the user interface for a new game
+        /// </summary>
         public void Reset()
         {
             btnPos0.Content = "";
@@ -88,6 +90,9 @@ namespace Assignment4
             btnPos8.Background = System.Windows.Media.Brushes.Black;
         }
 
+        /// <summary>
+        /// Updates the statistics group box based on the played games
+        /// </summary>
         public void UpdateStatistics()
         {
             lblPlayer1WinsVal.Content = tickTacToe.Player1Wins;
@@ -95,6 +100,10 @@ namespace Assignment4
             lblPlayerTiesVal.Content = tickTacToe.PlayerTies;
         }
 
+        /// <summary>
+        /// Highlights tiles in a winning row blue
+        /// </summary>
+        /// <param name="tiles"></param>
         public void WinTiles(int[] tiles)
         {
             foreach(int i in tiles)
@@ -133,7 +142,7 @@ namespace Assignment4
                         btn = btnPos0;
                         break;
                 }
-
+                
                 btn.Background = System.Windows.Media.Brushes.Blue;
             }
         }

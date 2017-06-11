@@ -257,15 +257,21 @@ namespace Assignment4
         /// <returns>The player that won otherwise 0</returns>
         private int checkPlayerDiagonalWins()
         {
+            int result = 0;
             if (board[0] > 0 && board[0] == board[4] && board[4] == board[8])
             {
                 ticTacToeView.WinTiles(new int[] { 0, 4, 8 });
-                return board[0];
+                result = board[0];
             }
             if (board[2] > 0 && board[2] == board[4] && board[4] == board[6])
             {
                 ticTacToeView.WinTiles(new int[] { 2, 4, 6 });
-                return board[2];
+                result = board[2];
+            }
+
+            if(result > 0)
+            {
+                return result;
             }
 
             return 0;
