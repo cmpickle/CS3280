@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assignment5
 {
-    class Class1
+    class User
     {
     }
 }
