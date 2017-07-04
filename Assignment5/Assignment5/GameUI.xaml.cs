@@ -17,9 +17,10 @@ namespace Assignment5
     /// <summary>
     /// Interaction logic for GameUI.xaml
     /// </summary>
-    public partial class GameUI : Window
+    public partial class GameUI : Window, GameUIView
     {
         String gameType;
+        private Game game;
 
         public GameUI()
         {
@@ -32,7 +33,15 @@ namespace Assignment5
 
             InitializeComponent();
 
+            game = new Game(gameType);
+            game.AttatchView(this);
+
             base.Title = gameType + " Game";
+        }
+
+        public void UpdateQuestion(String question)
+        {
+            lblProblem.Content = question;
         }
     }
 }

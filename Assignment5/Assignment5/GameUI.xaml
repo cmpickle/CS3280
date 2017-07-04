@@ -10,8 +10,8 @@
         <ImageBrush ImageSource="Images/StarField.jpg" Stretch="UniformToFill"/>
     </Window.Background>
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Label Name="SolveProblem" Content="Solve the problem: " />
-        <Label Name="Problem" Content="1 + 1 = "  HorizontalAlignment="Center"/>
+        <Label Name="lblSolveProblem" Content="Solve the problem: " />
+        <Label Name="lblProblem" Content="1 + 1 = "  HorizontalAlignment="Center"/>
         <TextBox Height="30" Width="60" />
         <WrapPanel HorizontalAlignment="Center" Margin="10">
             <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" />
