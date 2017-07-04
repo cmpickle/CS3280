@@ -7,6 +7,7 @@
 
         <Style TargetType="{x:Type Button}">
             <Setter Property="Background" Value="CornflowerBlue" />
+            <Setter Property="FontSize" Value="20" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
