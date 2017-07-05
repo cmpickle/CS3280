@@ -9,7 +9,10 @@ namespace Assignment5
     class Game
     {
         private string type = "Addition";
-        GameUIView gameUIView;
+        private GameUIView gameUIView;
+
+        private int currentAnswer;
+        private int score = 0;
 
         public Game(string type)
         {
@@ -55,18 +58,22 @@ namespace Assignment5
             int first = rand.Next(1, 20);
             int second = rand.Next(1, 20);
 
+            currentAnswer = first + second;
+
             return "" + first + " + " + second + " = ";
         }
 
         private String GenerateSubtractionQuestion()
         {
             Random rand = new Random();
-            int first = rand.Next(1, 19);
+            int first = rand.Next(1, 21);
             int second;
             do
             {
                 second = rand.Next(1, 20);
             } while (first <= second);
+
+            currentAnswer = first - second;
 
             return "" + first + " - " + second + " = ";
         }
@@ -76,6 +83,8 @@ namespace Assignment5
             Random rand = new Random();
             int first = rand.Next(1, 13);
             int second = rand.Next(1, 13);
+
+            currentAnswer = first * second;
 
             return "" + first + " * " + second + " = ";
         }
@@ -90,7 +99,24 @@ namespace Assignment5
                 second = rand.Next(1, 20);
             } while (first < second || first % second != 0);
 
+            currentAnswer = first / second;
+
             return "" + first + " / " + second + " = ";
+        }
+
+        public void SubmitAnswer(String input)
+        {
+            int answer;
+            Int32.TryParse(input, out answer);
+
+            if(answer == currentAnswer)
+            {
+                ++score;
+
+                gameUIView.UpdateScore(String.Format("Score: {0}", score));
+            }
+
+            gameUIView.UpdateQuestion(GenerateQuestion());
         }
     }
 }

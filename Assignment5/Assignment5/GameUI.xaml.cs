@@ -39,9 +39,19 @@ namespace Assignment5
             base.Title = gameType + " Game";
         }
 
+        private void btnGameSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            game.SubmitAnswer(txtAnswer.Text);
+        }
+
         public void UpdateQuestion(String question)
         {
             lblProblem.Content = question;
+        }
+
+        public void UpdateScore(string score)
+        {
+            lblScore.Content = score;
         }
     }
 }

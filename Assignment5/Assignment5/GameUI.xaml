@@ -9,12 +9,17 @@
     <Window.Background>
         <ImageBrush ImageSource="Images/StarField.jpg" Stretch="UniformToFill"/>
     </Window.Background>
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Label Name="lblSolveProblem" Content="Solve the problem: " />
-        <Label Name="lblProblem" Content="1 + 1 = "  HorizontalAlignment="Center"/>
-        <TextBox Height="30" Width="60" />
-        <WrapPanel HorizontalAlignment="Center" Margin="10">
-            <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" />
-        </WrapPanel>
-    </StackPanel>
+    <Grid>
+        <StackPanel>
+            <Label Name="lblScore" Content="Score: 0" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Name="lblSolveProblem" Content="Solve the problem: " />
+            <Label Name="lblProblem" Content="1 + 1 = "  HorizontalAlignment="Center"/>
+            <TextBox Name="txtAnswer" Height="30" Width="60" />
+            <WrapPanel HorizontalAlignment="Center" Margin="10">
+                <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" Click="btnGameSubmit_Click" />
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
 </Window>

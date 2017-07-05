@@ -58,7 +58,7 @@ namespace Assignment5
             highScores.ShowDialog();
         }
 
-        private void btnEnterUserInfo_Click(object sender, RoutedEventArgs e)
+        private void btnEditUserInfo_Click(object sender, RoutedEventArgs e)
         {
             UserInfo userInfo = new UserInfo();
             userInfo.ShowDialog();

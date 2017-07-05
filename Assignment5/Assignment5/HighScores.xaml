@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Assignment5"
         mc:Ignorable="d"
-        Title="High Scores" Height="450" Width="400" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+        Title="High Scores" Height="500" Width="400" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <ImageBrush ImageSource="Images/StarField.jpg" Stretch="UniformToFill"/>
     </Window.Background>
@@ -24,5 +24,8 @@
             <Label Content="10. " />
 
         </StackPanel>
+        <WrapPanel HorizontalAlignment="Center">
+            <Button Name="btnHighScoreBack" Content="Back" />
+        </WrapPanel>
     </StackPanel>
 </Window>

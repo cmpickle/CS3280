@@ -12,35 +12,47 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
 
-        <Label Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="80" Grid.Column="0" Grid.Row="0" Margin="0, 0, 0, 20" />
+            <Label Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="80" Grid.Column="0" Grid.Row="0" Margin="0, 0, 0, 20" />
 
-        <WrapPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10">
-            <Button Name="btnAddition"  Content="Addition" Click="Button_Click"/>
-        </WrapPanel>
+            <WrapPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10">
+                <Button Name="btnAddition"  Content="Addition" Click="Button_Click"/>
+            </WrapPanel>
 
-        <Label Content="-" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="80" Grid.Column="1" Grid.Row="0" Margin="0, 0, 0, 20" />
+            <Label Content="-" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="80" Grid.Column="1" Grid.Row="0" Margin="0, 0, 0, 20" />
 
-        <WrapPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10">
-            <Button Name="btnSubtraction" Content="Subtraction" Click="Button_Click"/>
-        </WrapPanel>
+            <WrapPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10">
+                <Button Name="btnSubtraction" Content="Subtraction" Click="Button_Click"/>
+            </WrapPanel>
 
-        <Label Content="*" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="80" Grid.Column="0" Grid.Row="1" />
+            <Label Content="*" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="80" Grid.Column="0" Grid.Row="1" />
 
-        <WrapPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10">
-            <Button Name="btnMultiplication" Content="Multiplication" Click="Button_Click"/>
-        </WrapPanel>
+            <WrapPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10">
+                <Button Name="btnMultiplication" Content="Multiplication" Click="Button_Click"/>
+            </WrapPanel>
 
-        <Label Content="/" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="80" Grid.Column="1" Grid.Row="1" Margin="0, 0, 0, 20" />
+            <Label Content="/" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="80" Grid.Column="1" Grid.Row="1" Margin="0, 0, 0, 20" />
 
-        <WrapPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10">
-            <Button Name="btnDivision" Content="Division" Click="Button_Click"/>
+            <WrapPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10">
+                <Button Name="btnDivision" Content="Division" Click="Button_Click"/>
+            </WrapPanel>
+        </Grid>
+        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Name="btnGameModeBack" Content="Back" />
         </WrapPanel>
     </Grid>
 </Window>

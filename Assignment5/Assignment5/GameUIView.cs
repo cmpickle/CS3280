@@ -9,5 +9,7 @@ namespace Assignment5
     interface GameUIView
     {
         void UpdateQuestion(String question);
+
+        void UpdateScore(String score);
     }
 }

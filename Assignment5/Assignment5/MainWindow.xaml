@@ -17,7 +17,7 @@
 
             <Button Name="btnHighScores" Content="High Scores" Margin="20" Click="btnHighScores_Click"/>
 
-            <Button Name="btnEnterUserInfo" Content="Enter User Info" Margin="20" Click="btnEnterUserInfo_Click"/>
+            <Button Name="btnEditUserInfo" Content="Edit User Info" Margin="20" Click="btnEditUserInfo_Click"/>
 
         </WrapPanel>
 
