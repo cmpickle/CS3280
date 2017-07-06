@@ -18,6 +18,7 @@ namespace Assignment5
         private int currentAnswer;
         private int score = 0;
         private int questionNum = 10;
+        private int time = 0;
 
         public Game(string type)
         {
@@ -134,16 +135,22 @@ namespace Assignment5
             --questionNum;
             if(questionNum == 0)
             {
+                timer.Stop();
                 HighScores highScores = new HighScores();
+                gameUIView.CloseWindow();
                 highScores.ShowDialog();
             }
+            gameUIView.ClearTxtAnswer();
 
             gameUIView.UpdateQuestion(GenerateQuestion());
         }
 
         private void UpdateTimer(Object sender, EventArgs e)
         {
+            ++time;
 
+            TimeSpan span = TimeSpan.FromSeconds(time);
+             gameUIView.UpdateTimer(span.ToString("mm':'ss"));
         }
     }
 }

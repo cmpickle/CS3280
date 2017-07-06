@@ -11,5 +11,11 @@ namespace Assignment5
         void UpdateQuestion(String question);
 
         void UpdateScore(String score);
+
+        void UpdateTimer(String time);
+
+        void ClearTxtAnswer();
+
+        void CloseWindow();
     }
 }

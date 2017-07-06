@@ -23,5 +23,10 @@ namespace Assignment5
         {
             InitializeComponent();
         }
+
+        private void btnHighScoreBack_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

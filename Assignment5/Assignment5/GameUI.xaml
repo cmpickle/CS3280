@@ -11,15 +11,16 @@
     </Window.Background>
     <Grid>
         <StackPanel>
-            <Label Name="lblScore" Content="Score: 0" />
+            <Label Name="lblScore" Content="Score: 0" FontSize="60" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Name="lblSolveProblem" Content="Solve the problem: " />
-            <Label Name="lblProblem" Content="1 + 1 = "  HorizontalAlignment="Center"/>
-            <TextBox Name="txtAnswer" Height="30" Width="60" ForceCursor="True" />
-            <WrapPanel HorizontalAlignment="Center" Margin="10">
-                <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" Click="btnGameSubmit_Click" />
+            <Label Name="lblSolveProblem" Content="Solve the problem: " FontSize="60" />
+            <Label Name="lblProblem" Content="1 + 1 = "  HorizontalAlignment="Center" FontSize="60"/>
+            <TextBox Name="txtAnswer" Height="80" Width="120" TextAlignment="Center" ForceCursor="True" FontSize="60"/>
+            <WrapPanel HorizontalAlignment="Center" Margin="20">
+                <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" Click="btnGameSubmit_Click" FontSize="40" />
             </WrapPanel>
         </StackPanel>
+        <Label Name="lblTimer" Content="00:00" FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
     </Grid>
 </Window>

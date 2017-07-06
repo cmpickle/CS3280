@@ -52,7 +52,7 @@
             </WrapPanel>
         </Grid>
         <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Name="btnGameModeBack" Content="Back" />
+            <Button Name="btnGameModeBack" Content="Back" Click="btnGameModeBack_Click" />
         </WrapPanel>
     </Grid>
 </Window>

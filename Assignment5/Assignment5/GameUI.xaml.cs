@@ -58,5 +58,20 @@ namespace Assignment5
         {
             lblScore.Content = score;
         }
+
+        public void UpdateTimer(String time)
+        {
+            lblTimer.Content = time;
+        }
+
+        public void ClearTxtAnswer()
+        {
+            txtAnswer.Text = "";
+        }
+
+        public void CloseWindow()
+        {
+            this.Close();
+        }
     }
 }

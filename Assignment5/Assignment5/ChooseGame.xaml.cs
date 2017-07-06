@@ -56,5 +56,10 @@ namespace Assignment5
             gameUI.setPlayerName(playerName);
             gameUI.ShowDialog();
         }
+
+        private void btnGameModeBack_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
