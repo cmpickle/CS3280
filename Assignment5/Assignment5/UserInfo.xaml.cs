@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,25 +20,85 @@ namespace Assignment5
     /// </summary>
     public partial class UserInfo : Window
     {
+#region constructor
+        /// <summary>
+        /// The default constructor
+        /// </summary>
         public UserInfo()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Constructs the GUI passing in the player's name
+        /// </summary>
+        /// <param name="playerName">The current user's name</param>
         public UserInfo(String playerName)
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
 
-            txtUserInfoName.Text = playerName;
+                txtUserInfoName.Text = playerName;
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
+        #endregion
 
+#region event handlers
+        /// <summary>
+        /// The event handler for the Submit button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
         private void btnUserInfoSubmit_Click(object sender, RoutedEventArgs e)
         {
-            if (txtUserInfoName.Text == "")
-                return;
-            Menu menu = new Menu(txtUserInfoName.Text);
-            this.Close();
-            menu.Show();
+            try
+            {
+                if (txtUserInfoName.Text == "")
+                    return;
+                Menu menu = new Menu(txtUserInfoName.Text);
+                this.Close();
+                menu.Show();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
+        #endregion
+
+        #region error handling
+        /// <summary>
+        /// The error handling method. This prints out a user readable stack trace for debugging purposes.
+        /// </summary>
+        /// <param name="sClass">The class the error originated from</param>
+        /// <param name="sMethod">The method the error originated from</param>
+        /// <param name="sMessage">The error message</param>
+        private void HandleError(String sClass, String sMethod, String sMessage)
+        {
+            try
+            {
+                MessageBox.Show(sClass + "." + sMethod + " -> " + sMessage);
+            }
+            catch (Exception e)
+            {
+                System.IO.File.AppendAllText("C:\\" + System.AppDomain.CurrentDomain.FriendlyName + "Error.txt", Environment.NewLine + "HandleError Exception: " + e.Message);
+            }
+        }
+        #endregion
     }
 }

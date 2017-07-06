@@ -18,7 +18,7 @@
             <Label Name="lblProblem" Content="1 + 1 = "  HorizontalAlignment="Center" FontSize="60"/>
             <TextBox Name="txtAnswer" Height="80" Width="120" TextAlignment="Center" ForceCursor="True" FontSize="60"/>
             <WrapPanel HorizontalAlignment="Center" Margin="20">
-                <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" Click="btnGameSubmit_Click" FontSize="40" />
+                <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" PreviewTouchDown="btnGameSubmit_PreviewKeyDown" FontSize="40" />
             </WrapPanel>
         </StackPanel>
         <Label Name="lblTimer" Content="00:00" FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"/>

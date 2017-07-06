@@ -7,19 +7,50 @@ using System.Windows.Threading;
 
 namespace Assignment5
 {
+    /// <summary>
+    /// Represents a math game. Controls the game logic and sends update requests to the GUI via the interface.
+    /// </summary>
     class Game
     {
+        /// <summary>
+        /// The type of game
+        /// </summary>
         private string type = "Addition";
+        /// <summary>
+        /// The interface to communicate with the GUI
+        /// </summary>
         private GameUIView gameUIView;
 
+        /// <summary>
+        /// The game timer
+        /// </summary>
         private DispatcherTimer timer;
 
+        /// <summary>
+        /// The current player's name
+        /// </summary>
         private String playerName;
+        /// <summary>
+        /// The correct answer for the current question
+        /// </summary>
         private int currentAnswer;
+        /// <summary>
+        /// The player's score
+        /// </summary>
         private int score = 0;
+        /// <summary>
+        /// How many questions remain for this game
+        /// </summary>
         private int questionNum = 10;
+        /// <summary>
+        /// Game time in seconds
+        /// </summary>
         private int time = 0;
 
+        /// <summary>
+        /// Constructs a game of type (type)
+        /// </summary>
+        /// <param name="type">The type of game {Addition, Subtraction, Multiplication, or Division}</param>
         public Game(string type)
         {
             this.type = type;
@@ -30,6 +61,10 @@ namespace Assignment5
             timer.Start();
         }
 
+        /// <summary>
+        /// Attatches the GUI to the current game
+        /// </summary>
+        /// <param name="gameUIView">The GUI that implements the GameUIView</param>
         public void AttatchView(GameUIView gameUIView)
         {
             this.gameUIView = gameUIView;
@@ -37,6 +72,10 @@ namespace Assignment5
             gameUIView.UpdateQuestion(GenerateQuestion());
         }
 
+        /// <summary>
+        /// Returns a question for the appropriate game type
+        /// </summary>
+        /// <returns>question string</returns>
         private String GenerateQuestion()
         {
             String result;
@@ -63,11 +102,19 @@ namespace Assignment5
             return result;
         }
 
+        /// <summary>
+        /// Sets the player name for the current game
+        /// </summary>
+        /// <param name="playerName">The current user's name</param>
         public void setPlayerName(String playerName)
         {
             this.playerName = playerName;
         }
 
+        /// <summary>
+        /// Returns a random addition question
+        /// </summary>
+        /// <returns>addition question string</returns>
         private String GenerateAdditionQuestion()
         {
             Random rand = new Random();
@@ -79,6 +126,10 @@ namespace Assignment5
             return "" + first + " + " + second + " = ";
         }
 
+        /// <summary>
+        /// Returns a random subtraction question
+        /// </summary>
+        /// <returns>subtraction question string</returns>
         private String GenerateSubtractionQuestion()
         {
             Random rand = new Random();
@@ -94,6 +145,10 @@ namespace Assignment5
             return "" + first + " - " + second + " = ";
         }
 
+        /// <summary>
+        /// Returns a random multiplication question
+        /// </summary>
+        /// <returns>multiplication question string</returns>
         private String GenerateMultiplicationQuestion()
         {
             Random rand = new Random();
@@ -105,6 +160,10 @@ namespace Assignment5
             return "" + first + " * " + second + " = ";
         }
 
+        /// <summary>
+        /// Returns a random division question
+        /// </summary>
+        /// <returns>division question string</returns>
         private String GenerateDivisionQuestion()
         {
             Random rand = new Random();
@@ -120,6 +179,10 @@ namespace Assignment5
             return "" + first + " / " + second + " = ";
         }
 
+        /// <summary>
+        /// Verifies if the user's input is correct or not. Applies game logic based on result.
+        /// </summary>
+        /// <param name="input">The user's answer</param>
         public void SubmitAnswer(String input)
         {
             int answer;

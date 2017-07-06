@@ -22,56 +22,125 @@ namespace Assignment5
     /// </summary>
     public partial class Menu : Window
     {
+#region class fields
+        /// <summary>
+        /// The name of the current player
+        /// </summary>
         String playerName;
-        SoundPlayer mainTheme = new SoundPlayer("Star Wars Main Theme.wav");
+        /// <summary>
+        /// The Sound Player for the main theme
+        /// </summary>
+        SoundPlayer mainTheme;
+#endregion
+
+        #region constructor
+        /// <summary>
+        /// The default constructor
+        /// </summary>
         public Menu()
         {
-            //mainTheme.Play();
-
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// The constructor that takes a string for the current player's name
+        /// </summary>
+        /// <param name="name">The current player's name</param>
         public Menu(String name)
         {
-            InitializeComponent();
-
             playerName = name;
-        }
+            try
+            {
+                mainTheme = new SoundPlayer("Star Wars Main Theme.wav");
+                mainTheme.Play();
 
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+            finally
+            {
+                mainTheme.Stop();
+            }
+        }
+#endregion
+
+        #region event handlers
+        /// <summary>
+        /// The event handler for the play game button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
         private void btnPlayGame_Click(object sender, RoutedEventArgs e)
         {
-            ChooseGame chooseGame = new ChooseGame(playerName);
-            //mainTheme.Stop();
-            chooseGame.ShowDialog();
-            //mainTheme.Play();
-            //try
-            //{
+            try
+            {
+                ChooseGame chooseGame = new ChooseGame(playerName);
+                //mainTheme.Stop();
+                chooseGame.ShowDialog();
+                //mainTheme.Play();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+            finally
+            {
 
-
-
-            //}
-            //catch (Exception e)
-            //{
-
-            //}
-            //finally
-            //{
-
-            //}
+            }
         }
 
+        /// <summary>
+        /// The event handler of the high scores button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
         private void btnHighScores_Click(object sender, RoutedEventArgs e)
         {
-            HighScores highScores = new HighScores();
-            highScores.ShowDialog();
+            try
+            {
+                HighScores highScores = new HighScores();
+                highScores.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// The event handler of the Edit User Info button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
         private void btnEditUserInfo_Click(object sender, RoutedEventArgs e)
         {
-            UserInfo userInfo = new UserInfo(playerName);
-            this.Close();
-            userInfo.Show();
+            try
+            {
+                UserInfo userInfo = new UserInfo(playerName);
+                this.Close();
+                userInfo.Show();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
+#endregion
 
         private void Method1()
         {
@@ -86,6 +155,13 @@ namespace Assignment5
             }
         }
 
+#region error handling
+        /// <summary>
+        /// The error handling method. This prints out a user readable stack trace for debugging purposes.
+        /// </summary>
+        /// <param name="sClass">The class the error originated from</param>
+        /// <param name="sMethod">The method the error originated from</param>
+        /// <param name="sMessage">The error message</param>
         private void HandleError(String sClass, String sMethod, String sMessage)
         {
             try
@@ -97,5 +173,6 @@ namespace Assignment5
                 System.IO.File.AppendAllText("C:\\" + System.AppDomain.CurrentDomain.FriendlyName + "Error.txt", Environment.NewLine + "HandleError Exception: " + e.Message);
             }
         }
+#endregion
     }
 }

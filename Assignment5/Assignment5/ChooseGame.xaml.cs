@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,47 +20,114 @@ namespace Assignment5
     /// </summary>
     public partial class ChooseGame : Window
     {
+#region class fields
+        /// <summary>
+        /// The current player's name
+        /// </summary>
         private String playerName;
+        #endregion
 
+#region constructor
+        /// <summary>
+        /// The constructor for choosing a game
+        /// </summary>
+        /// <param name="playerName">Current player's name</param>
         public ChooseGame(String playerName)
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
 
-            this.playerName = playerName;
+                this.playerName = playerName;
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
+        #endregion
 
+#region event handlers
+        /// <summary>
+        /// The button event handler for the various game types
+        /// </summary>
+        /// <param name="sender">The sender object {Addition button, Subtraction button, Multiplication button, or Division button}</param>
+        /// <param name="e">The event args</param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Button button = (Button)sender;
-
-            GameUI gameUI;
-
-            switch (button.Name)
+            try
             {
-                case "btnAddition":
-                    gameUI = new GameUI("Addition");
-                    break;
-                case "btnSubtraction":
-                    gameUI = new GameUI("Subtraction");
-                    break;
-                case "btnMultiplication":
-                    gameUI = new GameUI("Multiplication");
-                    break;
-                case "btnDivision":
-                    gameUI = new GameUI("Division");
-                    break;
-                default:
-                    gameUI = new GameUI();
-                    break;
-            }
+                Button button = (Button)sender;
 
-            gameUI.setPlayerName(playerName);
-            gameUI.ShowDialog();
+                GameUI gameUI;
+
+                switch (button.Name)
+                {
+                    case "btnAddition":
+                        gameUI = new GameUI("Addition");
+                        break;
+                    case "btnSubtraction":
+                        gameUI = new GameUI("Subtraction");
+                        break;
+                    case "btnMultiplication":
+                        gameUI = new GameUI("Multiplication");
+                        break;
+                    case "btnDivision":
+                        gameUI = new GameUI("Division");
+                        break;
+                    default:
+                        gameUI = new GameUI();
+                        break;
+                }
+
+                gameUI.setPlayerName(playerName);
+                gameUI.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// The event handler for the Back button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
         private void btnGameModeBack_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
+#endregion
+
+        #region error handling
+        /// <summary>
+        /// The error handling method. This prints out a user readable stack trace for debugging purposes.
+        /// </summary>
+        /// <param name="sClass">The class the error originated from</param>
+        /// <param name="sMethod">The method the error originated from</param>
+        /// <param name="sMessage">The error message</param>
+        private void HandleError(String sClass, String sMethod, String sMessage)
+        {
+            try
+            {
+                MessageBox.Show(sClass + "." + sMethod + " -> " + sMessage);
+            }
+            catch (Exception e)
+            {
+                System.IO.File.AppendAllText("C:\\" + System.AppDomain.CurrentDomain.FriendlyName + "Error.txt", Environment.NewLine + "HandleError Exception: " + e.Message);
+            }
+        }
+        #endregion
     }
 }
