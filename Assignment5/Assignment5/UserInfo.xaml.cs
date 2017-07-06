@@ -40,14 +40,14 @@ namespace Assignment5
         /// <summary>
         /// Constructs the GUI passing in the player's name
         /// </summary>
-        /// <param name="playerName">The current user's name</param>
-        public UserInfo(String playerName)
+        /// <param name="player">The current user's name</param>
+        public UserInfo(User player)
         {
             try
             {
                 InitializeComponent();
 
-                txtUserInfoName.Text = playerName;
+                txtUserInfoName.Text = player.Name;
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace Assignment5
             {
                 if (txtUserInfoName.Text == "")
                     return;
-                Menu menu = new Menu(txtUserInfoName.Text);
+                Menu menu = new Menu(new User(txtUserInfoName.Text));
                 this.Close();
                 menu.Show();
             }

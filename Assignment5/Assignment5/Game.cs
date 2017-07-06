@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -12,6 +13,7 @@ namespace Assignment5
     /// </summary>
     class Game
     {
+        #region class fields
         /// <summary>
         /// The type of game
         /// </summary>
@@ -29,7 +31,7 @@ namespace Assignment5
         /// <summary>
         /// The current player's name
         /// </summary>
-        private String playerName;
+        private User player;
         /// <summary>
         /// The correct answer for the current question
         /// </summary>
@@ -46,21 +48,33 @@ namespace Assignment5
         /// Game time in seconds
         /// </summary>
         private int time = 0;
+        #endregion
 
+        #region constructor
         /// <summary>
         /// Constructs a game of type (type)
         /// </summary>
         /// <param name="type">The type of game {Addition, Subtraction, Multiplication, or Division}</param>
         public Game(string type)
         {
-            this.type = type;
+            try
+            {
+                this.type = type;
 
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(1000);
-            timer.Tick += UpdateTimer;
-            timer.Start();
+                timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromMilliseconds(1000);
+                timer.Tick += UpdateTimer;
+                timer.Start();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
+        #endregion
 
+        #region public methods
         /// <summary>
         /// Attatches the GUI to the current game
         /// </summary>
@@ -73,42 +87,97 @@ namespace Assignment5
         }
 
         /// <summary>
+        /// Sets the player name for the current game
+        /// </summary>
+        /// <param name="player">The current user's name</param>
+        public void setPlayerName(User player)
+        {
+            try
+            {
+                this.player = player;
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Verifies if the user's input is correct or not. Applies game logic based on result.
+        /// </summary>
+        /// <param name="input">The user's answer</param>
+        public void SubmitAnswer(String input)
+        {
+            try
+            {
+                int answer;
+                Int32.TryParse(input, out answer);
+
+                if (answer == currentAnswer)
+                {
+                    ++score;
+
+                    gameUIView.UpdateScore(String.Format("Score: {0}", score));
+                }
+
+                --questionNum;
+                if (questionNum == 0)
+                {
+                    timer.Stop();
+                    HighScores highScores = new HighScores();
+                    gameUIView.CloseWindow();
+                    highScores.ShowDialog();
+                }
+                gameUIView.ClearTxtAnswer();
+
+                gameUIView.UpdateQuestion(GenerateQuestion());
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+        #endregion
+
+        #region private methods
+        /// <summary>
         /// Returns a question for the appropriate game type
         /// </summary>
         /// <returns>question string</returns>
         private String GenerateQuestion()
         {
-            String result;
+            String result = "Error!";
 
-            switch(type)
+            try
             {
-                case "Addition":
-                    result = GenerateAdditionQuestion();
-                    break;
-                case "Subtraction":
-                    result = GenerateSubtractionQuestion();
-                    break;
-                case "Multiplication":
-                    result = GenerateMultiplicationQuestion();
-                    break;
-                case "Division":
-                    result = GenerateDivisionQuestion();
-                    break;
-                default:
-                    result = "Error! Something went wrong.";
-                    break;
+                switch (type)
+                {
+                    case "Addition":
+                        result = GenerateAdditionQuestion();
+                        break;
+                    case "Subtraction":
+                        result = GenerateSubtractionQuestion();
+                        break;
+                    case "Multiplication":
+                        result = GenerateMultiplicationQuestion();
+                        break;
+                    case "Division":
+                        result = GenerateDivisionQuestion();
+                        break;
+                    default:
+                        result = "Error! Something went wrong.";
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Sets the player name for the current game
-        /// </summary>
-        /// <param name="playerName">The current user's name</param>
-        public void setPlayerName(String playerName)
-        {
-            this.playerName = playerName;
         }
 
         /// <summary>
@@ -180,40 +249,45 @@ namespace Assignment5
         }
 
         /// <summary>
-        /// Verifies if the user's input is correct or not. Applies game logic based on result.
+        /// Updates the time variable on the timer and tells the GUI to update.
         /// </summary>
-        /// <param name="input">The user's answer</param>
-        public void SubmitAnswer(String input)
-        {
-            int answer;
-            Int32.TryParse(input, out answer);
-
-            if(answer == currentAnswer)
-            {
-                ++score;
-
-                gameUIView.UpdateScore(String.Format("Score: {0}", score));
-            }
-
-            --questionNum;
-            if(questionNum == 0)
-            {
-                timer.Stop();
-                HighScores highScores = new HighScores();
-                gameUIView.CloseWindow();
-                highScores.ShowDialog();
-            }
-            gameUIView.ClearTxtAnswer();
-
-            gameUIView.UpdateQuestion(GenerateQuestion());
-        }
-
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
         private void UpdateTimer(Object sender, EventArgs e)
         {
-            ++time;
+            try
+            {
+                ++time;
 
-            TimeSpan span = TimeSpan.FromSeconds(time);
-             gameUIView.UpdateTimer(span.ToString("mm':'ss"));
+                TimeSpan span = TimeSpan.FromSeconds(time);
+                gameUIView.UpdateTimer(span.ToString("mm':'ss"));
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
+        #endregion
+
+        #region error handling
+        /// <summary>
+        /// The error handling method. This prints out a user readable stack trace for debugging purposes.
+        /// </summary>
+        /// <param name="sClass">The class the error originated from</param>
+        /// <param name="sMethod">The method the error originated from</param>
+        /// <param name="sMessage">The error message</param>
+        private void HandleError(String sClass, String sMethod, String sMessage)
+        {
+            try
+            {
+                gameUIView.ShowError(sClass + "." + sMethod + " -> " + Environment.NewLine + sMessage);
+            }
+            catch (Exception e)
+            {
+                System.IO.File.AppendAllText("C:\\" + System.AppDomain.CurrentDomain.FriendlyName + "Error.txt", Environment.NewLine + "HandleError Exception: " + e.Message);
+            }
+        }
+        #endregion
     }
 }

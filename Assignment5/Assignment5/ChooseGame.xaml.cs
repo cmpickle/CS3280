@@ -24,21 +24,21 @@ namespace Assignment5
         /// <summary>
         /// The current player's name
         /// </summary>
-        private String playerName;
+        private User player;
         #endregion
 
 #region constructor
         /// <summary>
         /// The constructor for choosing a game
         /// </summary>
-        /// <param name="playerName">Current player's name</param>
-        public ChooseGame(String playerName)
+        /// <param name="player">Current player's name</param>
+        public ChooseGame(User player)
         {
             try
             {
                 InitializeComponent();
 
-                this.playerName = playerName;
+                this.player = player;
             }
             catch (Exception ex)
             {
@@ -81,7 +81,7 @@ namespace Assignment5
                         break;
                 }
 
-                gameUI.setPlayerName(playerName);
+                gameUI.setPlayer(player);
                 gameUI.ShowDialog();
             }
             catch (Exception ex)

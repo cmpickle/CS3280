@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Assignment5"
         mc:Ignorable="d"
-        Title="User Info" Height="300" Width="300" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+        Title="User Info" Height="300" Width="300" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <ImageBrush ImageSource="Images/StarField.jpg" Stretch="UniformToFill"/>
     </Window.Background>

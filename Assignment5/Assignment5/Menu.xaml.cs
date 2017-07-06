@@ -26,7 +26,7 @@ namespace Assignment5
         /// <summary>
         /// The name of the current player
         /// </summary>
-        String playerName;
+        User player;
         /// <summary>
         /// The Sound Player for the main theme
         /// </summary>
@@ -53,12 +53,14 @@ namespace Assignment5
         /// <summary>
         /// The constructor that takes a string for the current player's name
         /// </summary>
-        /// <param name="name">The current player's name</param>
-        public Menu(String name)
+        /// <param name="player">The current player</param>
+        public Menu(User player)
         {
-            playerName = name;
             try
             {
+
+                this.player = player;
+
                 mainTheme = new SoundPlayer("Star Wars Main Theme.wav");
                 mainTheme.Play();
 
@@ -86,7 +88,7 @@ namespace Assignment5
         {
             try
             {
-                ChooseGame chooseGame = new ChooseGame(playerName);
+                ChooseGame chooseGame = new ChooseGame(player);
                 //mainTheme.Stop();
                 chooseGame.ShowDialog();
                 //mainTheme.Play();
@@ -130,7 +132,7 @@ namespace Assignment5
         {
             try
             {
-                UserInfo userInfo = new UserInfo(playerName);
+                UserInfo userInfo = new UserInfo(player);
                 this.Close();
                 userInfo.Show();
             }
@@ -141,19 +143,6 @@ namespace Assignment5
             }
         }
 #endregion
-
-        private void Method1()
-        {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + e.Message);
-            }
-        }
 
 #region error handling
         /// <summary>
@@ -166,7 +155,7 @@ namespace Assignment5
         {
             try
             {
-                MessageBox.Show(sClass + "." + sMethod + " -> " + sMessage);
+                MessageBox.Show(sClass + "." + sMethod + " -> " + Environment.NewLine + sMessage);
             }
             catch (Exception e)
             {

@@ -35,5 +35,11 @@ namespace Assignment5
         /// Closes the window
         /// </summary>
         void CloseWindow();
+
+        /// <summary>
+        /// Shows an error message in a message box
+        /// </summary>
+        /// <param name="error">The error string</param>
+        void ShowError(String error);
     }
 }

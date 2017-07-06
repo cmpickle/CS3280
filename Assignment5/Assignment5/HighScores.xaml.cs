@@ -53,7 +53,7 @@ namespace Assignment5
             catch (Exception ex)
             {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + e.Message);
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 #endregion

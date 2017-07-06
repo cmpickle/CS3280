@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Assignment5"
         mc:Ignorable="d"
-        Title="Game" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Game" Height="600" Width="800" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <Window.Background>
         <ImageBrush ImageSource="Images/StarField.jpg" Stretch="UniformToFill"/>
     </Window.Background>
@@ -16,9 +16,9 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Name="lblSolveProblem" Content="Solve the problem: " FontSize="60" />
             <Label Name="lblProblem" Content="1 + 1 = "  HorizontalAlignment="Center" FontSize="60"/>
-            <TextBox Name="txtAnswer" Height="80" Width="120" TextAlignment="Center" ForceCursor="True" FontSize="60"/>
+            <TextBox Name="txtAnswer" Height="80" Width="120" TextAlignment="Center" ForceCursor="True" FontSize="60" PreviewKeyDown="txtAnswer_PreviewKeyDown"/>
             <WrapPanel HorizontalAlignment="Center" Margin="20">
-                <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" PreviewTouchDown="btnGameSubmit_PreviewKeyDown" FontSize="40" />
+                <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" FontSize="40" Click="btnGameSubmit_Click" />
             </WrapPanel>
         </StackPanel>
         <Label Name="lblTimer" Content="00:00" FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"/>

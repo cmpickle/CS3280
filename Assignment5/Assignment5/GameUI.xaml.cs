@@ -76,12 +76,12 @@ namespace Assignment5
         /// <summary>
         /// Passes the player game to the game object
         /// </summary>
-        /// <param name="playerName"></param>
-        public void setPlayerName(String playerName)
+        /// <param name="player"></param>
+        public void setPlayer(User player)
         {
             try
             {
-                game.setPlayerName(playerName);
+                game.setPlayerName(player);
             }
             catch (Exception e)
             {
@@ -90,32 +90,67 @@ namespace Assignment5
             }
         }
 
-#region event handlers
+        #region event handlers
+        /// <summary>
+        /// Makes sure that the entered values is a number, backspace, or delete
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
+        private void txtAnswer_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (!((e.Key >= Key.D0 && e.Key <= Key.D9) || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
+                {
+                    if (!(e.Key == Key.Back || e.Key == Key.Delete))
+                    {
+                        e.Handled = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
         /// <summary>
         /// The event handler for the Submit button
         /// </summary>
         /// <param name="sender">The sender object</param>
         /// <param name="e">The event args</param>
-        private void btnGameSubmit_PreviewKeyDown(object sender, KeyEventArgs arg)
+        private void btnGameSubmit_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (!((arg.Key >= Key.D0 && arg.Key <= Key.D9) || arg.Key >= Key.NumPad0 && arg.Key <= Key.NumPad9))
-                {
-                    if (!(arg.Key == Key.Back || arg.Key == Key.Delete))
-                    {
-                        arg.Handled = true;
-                    }
-                    game.SubmitAnswer(txtAnswer.Text);
-                }
+               game.SubmitAnswer(txtAnswer.Text);
             } 
             catch (Exception ex)
             {
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
-            } 
+            }
         }
-#endregion
+
+        /// <summary>
+        /// The event handler for the Exit button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
+        private void btnGameUIExit_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+        #endregion
 
         #region GUI controls
         /// <summary>
@@ -200,6 +235,16 @@ namespace Assignment5
                                     MethodInfo.GetCurrentMethod().Name + " -> " + e.Message);
             }
         }
+
+        /// <summary>
+        /// Shows the error message
+        /// </summary>
+        /// <param name="error"></param>
+        public void ShowError(String error)
+        {
+            HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, error);
+        }
         #endregion
 
 #region error handling
@@ -220,6 +265,6 @@ namespace Assignment5
                 System.IO.File.AppendAllText("C:\\" + System.AppDomain.CurrentDomain.FriendlyName + "Error.txt", Environment.NewLine + "HandleError Exception: " + e.Message);
             }
         }
-#endregion
+        #endregion
     }
 }
