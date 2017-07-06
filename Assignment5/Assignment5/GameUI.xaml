@@ -16,7 +16,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Name="lblSolveProblem" Content="Solve the problem: " />
             <Label Name="lblProblem" Content="1 + 1 = "  HorizontalAlignment="Center"/>
-            <TextBox Name="txtAnswer" Height="30" Width="60" />
+            <TextBox Name="txtAnswer" Height="30" Width="60" ForceCursor="True" />
             <WrapPanel HorizontalAlignment="Center" Margin="10">
                 <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" Click="btnGameSubmit_Click" />
             </WrapPanel>

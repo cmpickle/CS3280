@@ -23,5 +23,21 @@ namespace Assignment5
         {
             InitializeComponent();
         }
+
+        public UserInfo(String playerName)
+        {
+            InitializeComponent();
+
+            txtUserInfoName.Text = playerName;
+        }
+
+        private void btnUserInfoSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtUserInfoName.Text == "")
+                return;
+            Menu menu = new Menu(txtUserInfoName.Text);
+            this.Close();
+            menu.Show();
+        }
     }
 }

@@ -20,22 +20,30 @@ namespace Assignment5
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Menu : Window
     {
+        String playerName;
         SoundPlayer mainTheme = new SoundPlayer("Star Wars Main Theme.wav");
-        public MainWindow()
+        public Menu()
         {
-            mainTheme.Play();
+            //mainTheme.Play();
 
             InitializeComponent();
         }
 
+        public Menu(String name)
+        {
+            InitializeComponent();
+
+            playerName = name;
+        }
+
         private void btnPlayGame_Click(object sender, RoutedEventArgs e)
         {
-            ChooseGame chooseGame = new ChooseGame();
-            mainTheme.Stop();
+            ChooseGame chooseGame = new ChooseGame(playerName);
+            //mainTheme.Stop();
             chooseGame.ShowDialog();
-            mainTheme.Play();
+            //mainTheme.Play();
             //try
             //{
 
@@ -60,8 +68,9 @@ namespace Assignment5
 
         private void btnEditUserInfo_Click(object sender, RoutedEventArgs e)
         {
-            UserInfo userInfo = new UserInfo();
-            userInfo.ShowDialog();
+            UserInfo userInfo = new UserInfo(playerName);
+            this.Close();
+            userInfo.Show();
         }
 
         private void Method1()

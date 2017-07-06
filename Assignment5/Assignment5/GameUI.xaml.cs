@@ -39,6 +39,11 @@ namespace Assignment5
             base.Title = gameType + " Game";
         }
 
+        public void setPlayerName(String playerName)
+        {
+            game.setPlayerName(playerName);
+        }
+
         private void btnGameSubmit_Click(object sender, RoutedEventArgs e)
         {
             game.SubmitAnswer(txtAnswer.Text);

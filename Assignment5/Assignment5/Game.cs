@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Assignment5
 {
@@ -11,12 +12,21 @@ namespace Assignment5
         private string type = "Addition";
         private GameUIView gameUIView;
 
+        private DispatcherTimer timer;
+
+        private String playerName;
         private int currentAnswer;
         private int score = 0;
+        private int questionNum = 10;
 
         public Game(string type)
         {
             this.type = type;
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(1000);
+            timer.Tick += UpdateTimer;
+            timer.Start();
         }
 
         public void AttatchView(GameUIView gameUIView)
@@ -50,6 +60,11 @@ namespace Assignment5
             }
 
             return result;
+        }
+
+        public void setPlayerName(String playerName)
+        {
+            this.playerName = playerName;
         }
 
         private String GenerateAdditionQuestion()
@@ -116,7 +131,19 @@ namespace Assignment5
                 gameUIView.UpdateScore(String.Format("Score: {0}", score));
             }
 
+            --questionNum;
+            if(questionNum == 0)
+            {
+                HighScores highScores = new HighScores();
+                highScores.ShowDialog();
+            }
+
             gameUIView.UpdateQuestion(GenerateQuestion());
+        }
+
+        private void UpdateTimer(Object sender, EventArgs e)
+        {
+
         }
     }
 }

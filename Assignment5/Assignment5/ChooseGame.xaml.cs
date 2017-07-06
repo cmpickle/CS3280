@@ -19,9 +19,13 @@ namespace Assignment5
     /// </summary>
     public partial class ChooseGame : Window
     {
-        public ChooseGame()
+        private String playerName;
+
+        public ChooseGame(String playerName)
         {
             InitializeComponent();
+
+            this.playerName = playerName;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -49,6 +53,7 @@ namespace Assignment5
                     break;
             }
 
+            gameUI.setPlayerName(playerName);
             gameUI.ShowDialog();
         }
     }
