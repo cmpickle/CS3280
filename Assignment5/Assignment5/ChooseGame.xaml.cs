@@ -25,6 +25,10 @@ namespace Assignment5
         /// The current player's name
         /// </summary>
         private User player;
+        /// <summary>
+        /// The high scores object
+        /// </summary>
+        private HighScoreLogic highScores;
         #endregion
 
 #region constructor
@@ -32,13 +36,14 @@ namespace Assignment5
         /// The constructor for choosing a game
         /// </summary>
         /// <param name="player">Current player's name</param>
-        public ChooseGame(User player)
+        public ChooseGame(User player, HighScoreLogic highScores)
         {
             try
             {
                 InitializeComponent();
 
                 this.player = player;
+                this.highScores = highScores;
             }
             catch (Exception ex)
             {
@@ -81,7 +86,7 @@ namespace Assignment5
                         break;
                 }
 
-                gameUI.setPlayer(player);
+                gameUI.setPlayer(player, highScores);
                 gameUI.ShowDialog();
             }
             catch (Exception ex)

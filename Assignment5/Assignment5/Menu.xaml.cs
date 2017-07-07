@@ -31,6 +31,8 @@ namespace Assignment5
         /// The Sound Player for the main theme
         /// </summary>
         SoundPlayer mainTheme;
+
+        HighScoreLogic highScoreLogic;
 #endregion
 
         #region constructor
@@ -54,12 +56,14 @@ namespace Assignment5
         /// The constructor that takes a string for the current player's name
         /// </summary>
         /// <param name="player">The current player</param>
-        public Menu(User player)
+        public Menu(User player, HighScoreLogic highScoreLogic)
         {
             try
             {
 
                 this.player = player;
+
+                this.highScoreLogic = highScoreLogic;
 
                 mainTheme = new SoundPlayer("Star Wars Main Theme.wav");
                 mainTheme.Play();
@@ -70,10 +74,6 @@ namespace Assignment5
             {
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
-            }
-            finally
-            {
-                mainTheme.Stop();
             }
         }
 #endregion
@@ -88,10 +88,8 @@ namespace Assignment5
         {
             try
             {
-                ChooseGame chooseGame = new ChooseGame(player);
-                //mainTheme.Stop();
+                ChooseGame chooseGame = new ChooseGame(player, highScoreLogic);
                 chooseGame.ShowDialog();
-                //mainTheme.Play();
             }
             catch (Exception ex)
             {
@@ -113,7 +111,7 @@ namespace Assignment5
         {
             try
             {
-                HighScores highScores = new HighScores();
+                HighScores highScores = new HighScores(highScoreLogic);
                 highScores.ShowDialog();
             }
             catch (Exception ex)
@@ -132,7 +130,7 @@ namespace Assignment5
         {
             try
             {
-                UserInfo userInfo = new UserInfo(player);
+                UserInfo userInfo = new UserInfo(player, highScoreLogic);
                 this.Close();
                 userInfo.Show();
             }

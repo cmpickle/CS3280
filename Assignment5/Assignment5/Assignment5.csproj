@@ -61,9 +61,11 @@
       <DependentUpon>GameUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameUIView.cs" />
+    <Compile Include="HighScoreLogic.cs" />
     <Compile Include="UserInfo.xaml.cs">
       <DependentUpon>UserInfo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserScore.cs" />
     <Page Include="GameUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,6 +134,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\StarField.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\JarJar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\JarJarGaping.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\JarJarScared.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ObiWan.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rey.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Yoda.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,9 +10,12 @@
         <ImageBrush ImageSource="Images/StarField.jpg" Stretch="UniformToFill"/>
     </Window.Background>
     <Grid>
-        <StackPanel>
-            <Label Name="lblScore" Content="Score: 0" FontSize="60" />
-        </StackPanel>
+        <DockPanel>
+            <Label Name="lblScore" Content="Score: 0" FontSize="60" Margin="20, 0, 0, 0" />
+            <WrapPanel HorizontalAlignment="Right">
+                <Button Name="btnGameUIExit" Content="Exit" Margin="0,20,20,0" FontSize="40" Click="btnGameUIExit_Click_1"/>
+            </WrapPanel>
+        </DockPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Name="lblSolveProblem" Content="Solve the problem: " FontSize="60" />
             <Label Name="lblProblem" Content="1 + 1 = "  HorizontalAlignment="Center" FontSize="60"/>
@@ -21,6 +24,8 @@
                 <Button Name="btnGameSubmit" Content="Submit" IsDefault="True" FontSize="40" Click="btnGameSubmit_Click" />
             </WrapPanel>
         </StackPanel>
+        <Image Name="imgCharacter" Source="Images/JarJar.png" Height="300" Width="250" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20, 0, 0, 20" Visibility="Hidden"/>
         <Label Name="lblTimer" Content="00:00" FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
+        <Label Name="lblResult" Content="incorrect!" FontFamily="/Assignment5;component/Fonts/#Star Jedi Rounded" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="45" Margin="0,200,20,0" Visibility="Hidden"/>
     </Grid>
 </Window>

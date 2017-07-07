@@ -77,11 +77,11 @@ namespace Assignment5
         /// Passes the player game to the game object
         /// </summary>
         /// <param name="player"></param>
-        public void setPlayer(User player)
+        public void setPlayer(User player, HighScoreLogic highScores)
         {
             try
             {
-                game.setPlayerName(player);
+                game.setPlayerName(player, highScores);
             }
             catch (Exception e)
             {
@@ -102,7 +102,7 @@ namespace Assignment5
             {
                 if (!((e.Key >= Key.D0 && e.Key <= Key.D9) || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
                 {
-                    if (!(e.Key == Key.Back || e.Key == Key.Delete))
+                    if (!(e.Key == Key.Back || e.Key == Key.Delete || e.Key == Key.Enter))
                     {
                         e.Handled = true;
                     }
@@ -148,6 +148,24 @@ namespace Assignment5
             {
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// The event handler for the Exit button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
+        private void btnGameUIExit_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
         #endregion
@@ -228,6 +246,43 @@ namespace Assignment5
             try
             {
                 this.Close();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Display if the user answered the question correctly or incorrectly
+        /// </summary>
+        /// <param name="result">The result string</param>
+        public void DisplayResultLabel(String result, Brush color)
+        {
+            try
+            {
+                lblResult.Visibility = Visibility.Visible;
+                lblResult.Content = result;
+                lblResult.Foreground = color;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Display an image to match the result label
+        /// </summary>
+        /// <param name="image">The image to be displayed</param>
+        public void DisplayResultImg(BitmapImage image)
+        {
+            try
+            {
+                imgCharacter.Visibility = Visibility.Visible;
+                imgCharacter.Source = image;
             }
             catch (Exception e)
             {

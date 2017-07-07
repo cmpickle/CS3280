@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Assignment5
 {
@@ -41,5 +43,15 @@ namespace Assignment5
         /// </summary>
         /// <param name="error">The error string</param>
         void ShowError(String error);
+
+        /// <summary>
+        /// Updates result label
+        /// </summary>
+        void DisplayResultLabel(String result, Brush color);
+
+        /// <summary>
+        /// Displays result image
+        /// </summary>
+        void DisplayResultImg(BitmapImage image);
     }
 }

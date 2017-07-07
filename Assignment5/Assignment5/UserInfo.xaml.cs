@@ -20,6 +20,11 @@ namespace Assignment5
     /// </summary>
     public partial class UserInfo : Window
     {
+        /// <summary>
+        /// High score logic object
+        /// </summary>
+        private HighScoreLogic highScoreLogic = new HighScoreLogic();
+
 #region constructor
         /// <summary>
         /// The default constructor
@@ -41,13 +46,14 @@ namespace Assignment5
         /// Constructs the GUI passing in the player's name
         /// </summary>
         /// <param name="player">The current user's name</param>
-        public UserInfo(User player)
+        public UserInfo(User player, HighScoreLogic highScoreLogic)
         {
             try
             {
                 InitializeComponent();
 
                 txtUserInfoName.Text = player.Name;
+                this.highScoreLogic = highScoreLogic;
             }
             catch (Exception ex)
             {
@@ -69,7 +75,7 @@ namespace Assignment5
             {
                 if (txtUserInfoName.Text == "")
                     return;
-                Menu menu = new Menu(new User(txtUserInfoName.Text));
+                Menu menu = new Menu(new User(txtUserInfoName.Text), highScoreLogic);
                 this.Close();
                 menu.Show();
             }

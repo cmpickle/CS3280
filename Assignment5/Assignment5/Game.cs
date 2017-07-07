@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace Assignment5
@@ -33,6 +35,10 @@ namespace Assignment5
         /// </summary>
         private User player;
         /// <summary>
+        /// The high scores object
+        /// </summary>
+        private HighScoreLogic highScoresLogic;
+        /// <summary>
         /// The correct answer for the current question
         /// </summary>
         private int currentAnswer;
@@ -48,6 +54,16 @@ namespace Assignment5
         /// Game time in seconds
         /// </summary>
         private int time = 0;
+        /// <summary>
+        /// An array of Bitmap images to display to the user after they answer a question.
+        /// indices 0-2 are for wrong answers and indices 3-5 are for correct answers.
+        /// </summary>
+        private BitmapImage[] images = {    new BitmapImage(new Uri("/Images/JarJar.png", UriKind.Relative)),
+                                            new BitmapImage(new Uri("/Images/JarJarGaping.jpg", UriKind.Relative)),
+                                            new BitmapImage(new Uri("/Images/JarJarScared.jpg", UriKind.Relative)),
+                                            new BitmapImage(new Uri("/Images/ObiWan.jpg", UriKind.Relative)),
+                                            new BitmapImage(new Uri("/Images/Rey.jpg", UriKind.Relative)),
+                                            new BitmapImage(new Uri("/Images/Yoda.jpg", UriKind.Relative))};
         #endregion
 
         #region constructor
@@ -90,11 +106,13 @@ namespace Assignment5
         /// Sets the player name for the current game
         /// </summary>
         /// <param name="player">The current user's name</param>
-        public void setPlayerName(User player)
+        public void setPlayerName(User player, HighScoreLogic highScores)
         {
             try
             {
                 this.player = player;
+
+                this.highScoresLogic = highScores;
             }
             catch (Exception ex)
             {
@@ -119,13 +137,20 @@ namespace Assignment5
                     ++score;
 
                     gameUIView.UpdateScore(String.Format("Score: {0}", score));
+
+                    DisplayCorrect();
+                }
+                else
+                {
+                    DisplayIncorrect();
                 }
 
                 --questionNum;
                 if (questionNum == 0)
                 {
                     timer.Stop();
-                    HighScores highScores = new HighScores();
+                    highScoresLogic.AddScore(new UserScore(player.Name, score, time, type));
+                    HighScores highScores = new HighScores(highScoresLogic, new UserScore(player.Name, score, time, type));
                     gameUIView.CloseWindow();
                     highScores.ShowDialog();
                 }
@@ -261,6 +286,44 @@ namespace Assignment5
 
                 TimeSpan span = TimeSpan.FromSeconds(time);
                 gameUIView.UpdateTimer(span.ToString("mm':'ss"));
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates the GUI to diplay that they were incorrect
+        /// </summary>
+        private void DisplayIncorrect()
+        {
+            try
+            {
+                Random rand = new Random();
+                gameUIView.DisplayResultLabel("incorrect!", new SolidColorBrush(Color.FromRgb(255, 0, 0)));
+
+                gameUIView.DisplayResultImg(images[rand.Next(3)]);
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates the GUI to diplay that they were correct
+        /// </summary>
+        private void DisplayCorrect()
+        {
+            try
+            {
+                Random rand = new Random();
+                gameUIView.DisplayResultLabel("correct!", new SolidColorBrush( Color.FromRgb(0,255,0)));
+
+                gameUIView.DisplayResultImg(images[rand.Next(3, 6)]);
             }
             catch (Exception ex)
             {
