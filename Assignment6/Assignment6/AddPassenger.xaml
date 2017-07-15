@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Assignment6"
         mc:Ignorable="d"
-        Title="Passenger Info" Height="200" Width="300">
+        Title="Passenger Info" Height="200" Width="300" ShowInTaskbar="False">
     <StackPanel VerticalAlignment="Center" Orientation="Vertical">
         <Label Content="Please enter the passenger's name" HorizontalAlignment="Center" Margin="10" />
         <Grid VerticalAlignment="Center">
@@ -25,8 +25,8 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Name="btnAddPassengerSave" Content="Save" Width="50" Margin="10,5"/>
-            <Button Name="btnAddPassengerCancel" Content="Cancel" Width="50" Margin="10,5" />
+            <Button Name="btnAddPassengerSave" Content="Save" Width="50" Margin="10,5" Click="btnAddPassengerSave_Click"/>
+            <Button Name="btnAddPassengerCancel" Content="Cancel" Width="50" Margin="10,5" Click="btnAddPassengerCancel_Click" />
         </StackPanel>
     </StackPanel>
 </Window>

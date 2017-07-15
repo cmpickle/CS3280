@@ -178,12 +178,12 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel VerticalAlignment="Bottom" Margin="10">
-                    <Button Name="btnAddPassenger" Content="Add Passenger" />
+                    <Button Name="btnAddPassenger" Content="Add Passenger" IsEnabled="False" Click="btnAddPassenger_Click" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
-                    <Button Name="btnChangeSeat" Content="Change Seat" Margin="10" />
-                    <Button Name="btnDeletePassenger" Content="Delete Passenger" Margin="10" />
+                    <Button Name="btnChangeSeat" Content="Change Seat" Margin="10" IsEnabled="False" />
+                    <Button Name="btnDeletePassenger" Content="Delete Passenger" Margin="10" IsEnabled="False" />
                 </StackPanel>
 
             </Grid>
