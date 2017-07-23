@@ -39,5 +39,21 @@ namespace Assignment6AirlineReservation
         {
             return FirstName + " " + LastName;
         }
+
+        /// <summary>
+        /// Compares two passenger objects to see if they are equivelant
+        /// </summary>
+        /// <param name="obj">The object to compare to</param>
+        /// <returns>True if equivelant otherwise false</returns>
+        public override bool Equals(object obj)
+        {
+            if(obj is clsPassenger)
+            {
+                clsPassenger other = (clsPassenger)obj;
+
+                return this.PassengerID == other.PassengerID;
+            }
+            return false;
+        }
     }
 }

@@ -87,6 +87,33 @@ namespace Assignment6AirlineReservation
 
             return passengers;
         }
+
+        /// <summary>
+        /// Gets a passenger object that is in the selected seat of the selected flight
+        /// </summary>
+        /// <param name="flightID">The flight's ID</param>
+        /// <param name="seatNumber">The seat number</param>
+        /// <returns></returns>
+        public clsPassenger GetPassengerBySeat(String flightID, String seatNumber)
+        {
+            DataSet ds = new DataSet();
+            int iRet = 0;
+
+            ds = clsData.ExecuteSQLStatement(sql.GetPassengerFromSeat(flightID, seatNumber), ref iRet);
+
+            if(ds.Tables[0].Rows.Count == 0)
+            {
+                return null;
+            }
+
+            clsPassenger passenger = new clsPassenger();
+            passenger.PassengerID = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+            passenger.FirstName = ds.Tables[0].Rows[0][1].ToString();
+            passenger.LastName = ds.Tables[0].Rows[0][2].ToString();
+            passenger.SeatNumber = Convert.ToInt32(seatNumber);
+
+            return passenger;
+        }
         #endregion
     }
 }

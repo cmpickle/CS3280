@@ -17,7 +17,7 @@ namespace Assignment6AirlineReservation
         /// <returns>SQL string</returns>
         public String GetAllFlights()
         {
-            string sSQL = "SELECT Flight_ID, Flight_Number, Aircraft_Type FROM FLIGHT";
+            String sSQL = "SELECT Flight_ID, Flight_Number, Aircraft_Type FROM FLIGHT";
             return sSQL;
         }
 
@@ -28,12 +28,28 @@ namespace Assignment6AirlineReservation
         /// <returns>SQL string</returns>
         public String GetAllPassengersForFlight(String flightID)
         {
-            string sSQL = String.Format("SELECT Passenger.Passenger_ID, First_Name, Last_Name, FPL.Seat_Number " +
+            String sSQL = String.Format("SELECT Passenger.Passenger_ID, First_Name, Last_Name, FPL.Seat_Number " +
                           "FROM Passenger, Flight_Passenger_Link FPL " +
                           "WHERE Passenger.Passenger_ID = FPL.Passenger_ID AND " +
                           "Flight_ID = {0}", flightID);
             return sSQL;
         }
 
+        /// <summary>
+        /// Selects the passenger who is in the seat on the flight selected
+        /// </summary>
+        /// <param name="flightID">The current flight</param>
+        /// <param name="seatNum">The flight's seat number</param>
+        /// <returns>SQL string</returns>
+        public String GetPassengerFromSeat(String flightID, String seatNum)
+        {
+            String sSQL = String.Format("SELECT p.Passenger_ID, First_Name, Last_Name " +
+                                        "FROM Passenger AS p " +
+                                        "INNER JOIN Flight_Passenger_Link AS fpl " +
+                                        "ON p.Passenger_ID = fpl.Passenger_ID " +
+                                        "WHERE Flight_ID = {0} " +
+                                        "AND Seat_Number = '{1}'", flightID, seatNum);
+            return sSQL;
+        }
     }
 }
