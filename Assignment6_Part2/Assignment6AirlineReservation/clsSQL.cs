@@ -11,6 +11,7 @@ namespace Assignment6AirlineReservation
     /// </summary>
     class clsSQL
     {
+        #region display flight info
         /// <summary>
         /// Gets all flights from the database
         /// </summary>
@@ -49,6 +50,75 @@ namespace Assignment6AirlineReservation
                                         "ON p.Passenger_ID = fpl.Passenger_ID " +
                                         "WHERE Flight_ID = {0} " +
                                         "AND Seat_Number = '{1}'", flightID, seatNum);
+            return sSQL;
+        }
+        #endregion
+
+        /// <summary>
+        /// Updates the seat number for the passenger in the given flight
+        /// </summary>
+        /// <param name="seatNumber">The seat to be updated to</param>
+        /// <param name="passengerID">The passenger's ID</param>
+        /// <param name="flightID">The filght's ID</param>
+        /// <returns>SQL string</returns>
+        public String UpdatePassengerSeat(int seatNumber, int passengerID, String flightID)
+        {
+            String sSQL = String.Format("UPDATE Flight_Passenger_Link " +
+                                        "SET Seat_Number = {0} " +
+                                        "WHERE Passenger_ID = {1} " +
+                                        "AND Flight_ID = {2}", seatNumber, passengerID, flightID);
+            return sSQL;
+        }
+
+        /// <summary>
+        /// Creates a passenger in the database
+        /// </summary>
+        /// <param name="passenger">The passenger object</param>
+        /// <returns>SQL string</returns>
+        public String CreatePassenger(clsPassenger passenger)
+        {
+            String sSQL = String.Format("INSERT INTO Passenger(First_Name, Last_Name) " +
+                                        "VALUES('{0}', '{1}')", passenger.FirstName, passenger.LastName);
+            return sSQL;
+        }
+
+        /// <summary>
+        /// Creates a link between a passenger and a flight
+        /// </summary>
+        /// <param name="passenger">The passenger object</param>
+        /// <param name="flight">The flight object</param>
+        /// <param name="seatNumber">The seat assigned to the passenger</param>
+        /// <returns>SQL string</returns>
+        public String CreateFlightPassengerLink(clsFlight flight, clsPassenger passenger, int seatNumber)
+        {
+            String sSQL = String.Format("INSERT INTO Flight_Passenger_Link(Flight_ID, Passenger_ID, Seat_Number) " +
+                                        "VALUES({0}, {1}, {2})", flight.FlightID, passenger.PassengerID, seatNumber);
+            return sSQL;
+        }
+
+        /// <summary>
+        /// Deletes the given passenger
+        /// </summary>
+        /// <param name="passenger">The passenger object</param>
+        /// <returns>SQL string</returns>
+        public String DeletePassenger(clsPassenger passenger)
+        {
+            String sSQL = String.Format("DELETE FROM Passenger " +
+                                        "WHERE Passenger_ID = {0})", passenger.PassengerID);
+            return sSQL;
+        }
+
+        /// <summary>
+        /// Deletes the flight/passenger link between the two objects
+        /// </summary>
+        /// <param name="flight">The flight object</param>
+        /// <param name="passenger">The passenger object</param>
+        /// <returns></returns>
+        public String DeleteFlightPassengerLink(clsFlight flight, clsPassenger passenger)
+        {
+            String sSQL = String.Format("DELETE FROM Flight_Passenger_Link " +
+                                        "WHERE Flight_ID = {0} " +
+                                        "AND Passenger_ID = {1}", flight.FlightID, passenger.PassengerID);
             return sSQL;
         }
     }
