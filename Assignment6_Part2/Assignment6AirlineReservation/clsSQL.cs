@@ -11,7 +11,7 @@ namespace Assignment6AirlineReservation
     /// </summary>
     class clsSQL
     {
-        #region display flight info
+        #region Select queries
         /// <summary>
         /// Gets all flights from the database
         /// </summary>
@@ -54,6 +54,7 @@ namespace Assignment6AirlineReservation
         }
         #endregion
 
+        #region Update queries
         /// <summary>
         /// Updates the seat number for the passenger in the given flight
         /// </summary>
@@ -69,7 +70,9 @@ namespace Assignment6AirlineReservation
                                         "AND Flight_ID = {2}", seatNumber, passengerID, flightID);
             return sSQL;
         }
+        #endregion
 
+        #region Insert queries
         /// <summary>
         /// Creates a passenger in the database
         /// </summary>
@@ -95,7 +98,9 @@ namespace Assignment6AirlineReservation
                                         "VALUES({0}, {1}, {2})", flight.FlightID, passenger.PassengerID, seatNumber);
             return sSQL;
         }
+        #endregion
 
+        #region Delete queries
         /// <summary>
         /// Deletes the given passenger
         /// </summary>
@@ -121,5 +126,6 @@ namespace Assignment6AirlineReservation
                                         "AND Passenger_ID = {1}", flight.FlightID, passenger.PassengerID);
             return sSQL;
         }
+        #endregion
     }
 }
