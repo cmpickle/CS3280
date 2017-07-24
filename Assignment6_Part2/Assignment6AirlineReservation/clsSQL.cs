@@ -62,7 +62,7 @@ namespace Assignment6AirlineReservation
         /// <param name="passengerID">The passenger's ID</param>
         /// <param name="flightID">The filght's ID</param>
         /// <returns>SQL string</returns>
-        public String UpdatePassengerSeat(int seatNumber, int passengerID, String flightID)
+        public String UpdatePassengerSeat(String flightID, String passengerID, String seatNumber)
         {
             String sSQL = String.Format("UPDATE Flight_Passenger_Link " +
                                         "SET Seat_Number = {0} " +

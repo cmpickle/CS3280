@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,8 +31,15 @@ namespace Assignment6AirlineReservation
         /// </summary>
         public clsFlightLogic()
         {
-            clsData = new clsDataAccess();
-            sql = new clsSQL();
+            try
+            {
+                clsData = new clsDataAccess();
+                sql = new clsSQL();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
         #endregion
 
@@ -42,20 +50,27 @@ namespace Assignment6AirlineReservation
         /// <returns></returns>
         public List<clsFlight> GetAllFlights()
         {
-            DataSet ds = new DataSet();
-            int iRet = 0;
-
-            ds = clsData.ExecuteSQLStatement(sql.GetAllFlights(), ref iRet);
-
             List<clsFlight> flights = new List<clsFlight>();
 
-            for(int i=0; i<iRet; ++i)
+            try
             {
-                clsFlight flight = new clsFlight();
-                flight.FlightID = Convert.ToInt32(ds.Tables[0].Rows[i][0].ToString());
-                flight.FlightNum = Convert.ToInt32(ds.Tables[0].Rows[i][1].ToString());
-                flight.FlightType = ds.Tables[0].Rows[i][2].ToString();
-                flights.Add(flight);
+                DataSet ds = new DataSet();
+                int iRet = 0;
+
+                ds = clsData.ExecuteSQLStatement(sql.GetAllFlights(), ref iRet);
+
+                for (int i = 0; i < iRet; ++i)
+                {
+                    clsFlight flight = new clsFlight();
+                    flight.FlightID = Convert.ToInt32(ds.Tables[0].Rows[i][0].ToString());
+                    flight.FlightNum = Convert.ToInt32(ds.Tables[0].Rows[i][1].ToString());
+                    flight.FlightType = ds.Tables[0].Rows[i][2].ToString();
+                    flights.Add(flight);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
 
             return flights;
@@ -68,21 +83,28 @@ namespace Assignment6AirlineReservation
         /// <returns>List of passenger objects</returns>
         public List<clsPassenger> GetFlightPassengers(String flightID)
         {
-            DataSet ds = new DataSet();
-            int iRet = 0;
-
-            ds = clsData.ExecuteSQLStatement(sql.GetAllPassengersForFlight(flightID), ref iRet);
-
             List<clsPassenger> passengers = new List<clsPassenger>();
 
-            for (int i = 0; i < iRet; ++i)
+            try
             {
-                clsPassenger passenger = new clsPassenger();
-                passenger.PassengerID = Convert.ToInt32(ds.Tables[0].Rows[i][0].ToString());
-                passenger.FirstName = ds.Tables[0].Rows[i][1].ToString();
-                passenger.LastName = ds.Tables[0].Rows[i][2].ToString();
-                passenger.SeatNumber = Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString());
-                passengers.Add(passenger);
+                DataSet ds = new DataSet();
+                int iRet = 0;
+
+                ds = clsData.ExecuteSQLStatement(sql.GetAllPassengersForFlight(flightID), ref iRet);
+
+                for (int i = 0; i < iRet; ++i)
+                {
+                    clsPassenger passenger = new clsPassenger();
+                    passenger.PassengerID = Convert.ToInt32(ds.Tables[0].Rows[i][0].ToString());
+                    passenger.FirstName = ds.Tables[0].Rows[i][1].ToString();
+                    passenger.LastName = ds.Tables[0].Rows[i][2].ToString();
+                    passenger.SeatNumber = Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString());
+                    passengers.Add(passenger);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
 
             return passengers;
@@ -96,23 +118,59 @@ namespace Assignment6AirlineReservation
         /// <returns></returns>
         public clsPassenger GetPassengerBySeat(String flightID, String seatNumber)
         {
-            DataSet ds = new DataSet();
-            int iRet = 0;
+            clsPassenger passenger = new clsPassenger();
 
-            ds = clsData.ExecuteSQLStatement(sql.GetPassengerFromSeat(flightID, seatNumber), ref iRet);
-
-            if(ds.Tables[0].Rows.Count == 0)
+            try
             {
-                return null;
+                DataSet ds = new DataSet();
+                int iRet = 0;
+
+                ds = clsData.ExecuteSQLStatement(sql.GetPassengerFromSeat(flightID, seatNumber), ref iRet);
+
+                if (ds.Tables[0].Rows.Count == 0)
+                {
+                    return null;
+                }
+
+                passenger.PassengerID = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+                passenger.FirstName = ds.Tables[0].Rows[0][1].ToString();
+                passenger.LastName = ds.Tables[0].Rows[0][2].ToString();
+                passenger.SeatNumber = Convert.ToInt32(seatNumber);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
 
-            clsPassenger passenger = new clsPassenger();
-            passenger.PassengerID = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
-            passenger.FirstName = ds.Tables[0].Rows[0][1].ToString();
-            passenger.LastName = ds.Tables[0].Rows[0][2].ToString();
-            passenger.SeatNumber = Convert.ToInt32(seatNumber);
-
             return passenger;
+        }
+
+        /// <summary>
+        /// Update the passenger's seat number for their specified flight
+        /// </summary>
+        /// <param name="flightID">The flight ID</param>
+        /// <param name="passengerID">The passenger's ID</param>
+        /// <param name="seatNumber">The new seat number</param>
+        public bool UpdatePassengerSeatNumber(String flightID, String passengerID, String seatNumber)
+        {
+            bool seatChanged = false;
+
+            try
+            {
+
+                seatChanged = (GetPassengerBySeat(flightID, seatNumber) == null) ? true : false;
+
+                if (seatChanged)
+                {
+                    clsData.ExecuteNonQuery(sql.UpdatePassengerSeat(flightID, passengerID, seatNumber));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+
+            return seatChanged;
         }
         #endregion
     }

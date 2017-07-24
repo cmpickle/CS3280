@@ -49,6 +49,11 @@ namespace Assignment6AirlineReservation
         clsPassenger selectedPassenger;
 
         /// <summary>
+        /// Set to true when a passenger's seat is being changed
+        /// </summary>
+        bool changeSeat = false;
+
+        /// <summary>
         /// The blue color brush
         /// </summary>
         SolidColorBrush blue;
@@ -126,26 +131,8 @@ namespace Assignment6AirlineReservation
                     Canvas767.Visibility = Visibility.Visible;
                     CanvasA380.Visibility = Visibility.Hidden;
                 }
-                
-                cbChoosePassenger.Items.Clear();
 
-                List<clsPassenger> passengers = flightLogic.GetFlightPassengers(currentFlightID);
-
-                passengers.ForEach(passenger => cbChoosePassenger.Items.Add(passenger));
-
-                seats.ForEach(seat =>
-                {
-                    List<int> seatsTaken = new List<int>();
-                    passengers.ForEach(passenger => seatsTaken.Add(passenger.SeatNumber));
-                    if (seatsTaken.Contains(Convert.ToInt32(seat.Content)))
-                    {
-                        seat.Background = red;
-                    }
-                    else
-                    {
-                        seat.Background = blue;
-                    }
-                });
+                RefreshPassengerList();
             }
             catch (Exception ex)
             {
@@ -211,17 +198,128 @@ namespace Assignment6AirlineReservation
             try
             {
                 Label seat = (Label)sender;
-                
-                clsPassenger clickedPassenger = flightLogic.GetPassengerBySeat(currentFlightID, seat.Content.ToString());
-                if (clickedPassenger != null)
+
+                if (changeSeat)
                 {
-                    cbChoosePassenger.SelectedIndex = cbChoosePassenger.Items.IndexOf(clickedPassenger);
+                    clsPassenger clickedPassenger = flightLogic.GetPassengerBySeat(currentFlightID, seat.Content.ToString());
+                    if (clickedPassenger == null)
+                    {
+                        flightLogic.UpdatePassengerSeatNumber(currentFlightID, selectedPassenger.PassengerID.ToString(), seat.Content.ToString());
+
+                        ExitChangeSeatMode();
+
+                        selectedPassenger = flightLogic.GetPassengerBySeat(currentFlightID, seat.Content.ToString());
+
+                        RefreshPassengerList();
+
+                        lblSeat_Click(sender, null);
+                    }
+                }
+                else
+                {
+                    clsPassenger clickedPassenger = flightLogic.GetPassengerBySeat(currentFlightID, seat.Content.ToString());
+                    if (clickedPassenger != null)
+                    {
+                        cbChoosePassenger.SelectedIndex = cbChoosePassenger.Items.IndexOf(clickedPassenger);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                     MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// The event handler for the Change Seat button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
+        private void cmdChangeSeat_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                EnterChangeSeatMode();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                    MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+        #endregion
+
+        #region helper methods
+        /// <summary>
+        /// Sets up the GUI for when changing the seat of a passenger
+        /// </summary>
+        private void EnterChangeSeatMode()
+        {
+            try
+            {
+                changeSeat = true;
+
+                cmdChangeSeat.IsEnabled = false;
+                cmdAddPassenger.IsEnabled = false;
+                cmdDeletePassenger.IsEnabled = false;
+                cbChooseFlight.IsEnabled = false;
+                cbChoosePassenger.IsEnabled = false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        private void ExitChangeSeatMode()
+        {
+            try
+            {
+                changeSeat = false;
+
+                cmdChangeSeat.IsEnabled = true;
+                cmdAddPassenger.IsEnabled = true;
+                cmdDeletePassenger.IsEnabled = true;
+                cbChooseFlight.IsEnabled = true;
+                cbChoosePassenger.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the list of passengers for the current flight
+        /// </summary>
+        private void RefreshPassengerList()
+        {
+            try
+            {
+                cbChoosePassenger.Items.Clear();
+
+                List<clsPassenger> passengers = flightLogic.GetFlightPassengers(currentFlightID);
+
+                passengers.ForEach(passenger => cbChoosePassenger.Items.Add(passenger));
+
+                seats.ForEach(seat =>
+                {
+                    List<int> seatsTaken = new List<int>();
+                    passengers.ForEach(passenger => seatsTaken.Add(passenger.SeatNumber));
+                    if (seatsTaken.Contains(Convert.ToInt32(seat.Content)))
+                    {
+                        seat.Background = red;
+                    }
+                    else
+                    {
+                        seat.Background = blue;
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
         #endregion

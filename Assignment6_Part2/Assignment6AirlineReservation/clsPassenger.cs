@@ -11,6 +11,7 @@ namespace Assignment6AirlineReservation
     /// </summary>
     class clsPassenger
     {
+        #region class fields
         /// <summary>
         /// The passenger's ID
         /// </summary>
@@ -30,7 +31,9 @@ namespace Assignment6AirlineReservation
         /// The passenger's seat number
         /// </summary>
         public int SeatNumber { get; set; }
+        #endregion
 
+        #region override methods
         /// <summary>
         /// Returns string version of passenger object
         /// </summary>
@@ -55,5 +58,6 @@ namespace Assignment6AirlineReservation
             }
             return false;
         }
+        #endregion
     }
 }
