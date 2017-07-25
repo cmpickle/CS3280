@@ -79,6 +79,7 @@ namespace Assignment6AirlineReservation
         SolidColorBrush green;
         #endregion
 
+        #region constructor
         /// <summary>
         /// The default constuctor
         /// </summary>
@@ -105,6 +106,7 @@ namespace Assignment6AirlineReservation
                     MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
+        #endregion
 
         #region event handlers
         /// <summary>
@@ -126,7 +128,7 @@ namespace Assignment6AirlineReservation
 
                 if (currentFlightID == "1")
                 {
-                    seats = new List<Label>{    SeatA1, SeatA2, SeatA3, Seat4, SeatA5,
+                    seats = new List<Label>{    SeatA1, SeatA2, SeatA3, SeatA4, SeatA5,
                                                 SeatA6, SeatA7, SeatA8, SeatA9, SeatA10,
                                                 SeatA11, SeatA12, SeatA13, SeatA14, SeatA15,
                                                 SeatA16, SeatA17, SeatA18};
@@ -221,8 +223,6 @@ namespace Assignment6AirlineReservation
                     {
                         if(addingPassenger)
                         {
-                            addPassenger.PassengerID = Convert.ToInt32(flightLogic.GetPassengerID(addPassenger.FirstName, addPassenger.LastName));
-
                             flightLogic.InsertPassenger(currentFlightID, addPassenger);
 
                             addingPassenger = false;
@@ -284,18 +284,41 @@ namespace Assignment6AirlineReservation
         /// <param name="e">The event args</param>
         private void cmdDeletePassenger_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                flightLogic.DeletePassenger(currentFlightID, selectedPassenger.PassengerID.ToString());
 
+                selectedPassenger = null;
+
+                RefreshPassengerList();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                    MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
         #endregion
 
         #region public methods
+        /// <summary>
+        /// Sets the Main Window in the add passenger view
+        /// </summary>
+        /// <param name="passenger"></param>
         public void AddPassenger(clsPassenger passenger)
         {
-            addPassenger = passenger;
+            try
+            {
+                addPassenger = passenger;
 
-            addingPassenger = true;
+                addingPassenger = true;
 
-            EnterChangeSeatMode();
+                EnterChangeSeatMode();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
         #endregion
 
@@ -321,6 +344,9 @@ namespace Assignment6AirlineReservation
             }
         }
 
+        /// <summary>
+        /// Returns the GUI to the normal selection mode
+        /// </summary>
         private void ExitChangeSeatMode()
         {
             try

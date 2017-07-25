@@ -67,6 +67,19 @@ namespace Assignment6AirlineReservation
                                         "AND Last_Name like '{1}'", first, last);
             return sSQL;
         }
+
+        /// <summary>
+        /// Returns any linked flights for a given passenger ID
+        /// </summary>
+        /// <param name="passengerID">The passenger's ID</param>
+        /// <returns>SQL string</returns>
+        public String GetFlightLinksForPassenger(String passengerID)
+        {
+            String sSQL = String.Format("SELECT Flight_ID, Passenger_ID, Seat_Number " +
+                                        "FROM Flight_Passenger_Link " +
+                                        "WHERE Passenger_ID = {0}", passengerID);
+            return sSQL;
+        }
         #endregion
 
         #region Update queries
@@ -121,10 +134,10 @@ namespace Assignment6AirlineReservation
         /// </summary>
         /// <param name="passenger">The passenger object</param>
         /// <returns>SQL string</returns>
-        public String DeletePassenger(clsPassenger passenger)
+        public String DeletePassenger(String passengerID)
         {
             String sSQL = String.Format("DELETE FROM Passenger " +
-                                        "WHERE Passenger_ID = {0})", passenger.PassengerID);
+                                        "WHERE Passenger_ID = {0}", passengerID);
             return sSQL;
         }
 
@@ -134,11 +147,11 @@ namespace Assignment6AirlineReservation
         /// <param name="flight">The flight object</param>
         /// <param name="passenger">The passenger object</param>
         /// <returns></returns>
-        public String DeleteFlightPassengerLink(String flightID, clsPassenger passenger)
+        public String DeleteFlightPassengerLink(String flightID, String passengerID)
         {
             String sSQL = String.Format("DELETE FROM Flight_Passenger_Link " +
                                         "WHERE Flight_ID = {0} " +
-                                        "AND Passenger_ID = {1}", flightID, passenger.PassengerID);
+                                        "AND Passenger_ID = {1}", flightID, passengerID);
             return sSQL;
         }
         #endregion

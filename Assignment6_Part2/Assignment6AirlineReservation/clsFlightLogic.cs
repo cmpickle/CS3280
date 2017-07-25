@@ -184,6 +184,8 @@ namespace Assignment6AirlineReservation
             {
                 clsData.ExecuteNonQuery(sql.CreatePassenger(passenger));
 
+                passenger.PassengerID = Convert.ToInt32(GetPassengerID(passenger.FirstName, passenger.LastName));
+
                 clsData.ExecuteNonQuery(sql.CreateFlightPassengerLink(flightID, passenger, 0));
             }
             catch (Exception ex)
@@ -215,6 +217,33 @@ namespace Assignment6AirlineReservation
             }
 
             return ds.Tables[0].Rows[0][0].ToString();
+        }
+
+        /// <summary>
+        /// Deletes the passenger and their flight from the database
+        /// </summary>
+        /// <param name="flightID">The flight's ID</param>
+        /// <param name="passengerID">The passenger's ID</param>
+        public void DeletePassenger(String flightID, String passengerID)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                clsData.ExecuteNonQuery(sql.DeleteFlightPassengerLink(flightID, passengerID));
+
+                int iRet = 0;
+
+                ds = clsData.ExecuteSQLStatement(sql.GetFlightLinksForPassenger(passengerID), ref iRet);
+
+                if (ds.Tables[0].Rows.Count == 0)
+                {
+                    clsData.ExecuteNonQuery(sql.DeletePassenger(passengerID));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
         #endregion
     }
