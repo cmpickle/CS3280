@@ -121,6 +121,8 @@ namespace Assignment6AirlineReservation
                 currentFlightID = ((clsFlight)cbChooseFlight.SelectedItem).FlightID.ToString();
                 cbChoosePassenger.IsEnabled = true;
                 gPassengerCommands.IsEnabled = true;
+                cmdChangeSeat.IsEnabled = false;
+                cmdDeletePassenger.IsEnabled = false;
 
                 if (currentFlightID == "1")
                 {
@@ -160,7 +162,10 @@ namespace Assignment6AirlineReservation
         {
             try
             {
-                if(selectedPassenger != null)
+                cmdChangeSeat.IsEnabled = true;
+                cmdDeletePassenger.IsEnabled = true;
+
+                if (selectedPassenger != null)
                 {
                     seats[selectedPassenger.SeatNumber - 1].Background = red;
                 }
@@ -270,6 +275,16 @@ namespace Assignment6AirlineReservation
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                     MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
+        }
+
+        /// <summary>
+        /// The event handler for the Delete Passenger button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
+        private void cmdDeletePassenger_Click(object sender, RoutedEventArgs e)
+        {
+
         }
         #endregion
 
