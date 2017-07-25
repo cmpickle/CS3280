@@ -52,6 +52,21 @@ namespace Assignment6AirlineReservation
                                         "AND Seat_Number = '{1}'", flightID, seatNum);
             return sSQL;
         }
+
+        /// <summary>
+        /// Selects the passenger ID for a passenger with the given first and last name
+        /// </summary>
+        /// <param name="first">Passenger's first name</param>
+        /// <param name="last">Passenger's last name</param>
+        /// <returns>SQL string</returns>
+        public String GetPassengerID(String first, String last)
+        {
+            String sSQL = String.Format("SELECT TOP 1 Passenger_ID " +
+                                        "FROM Passenger " +
+                                        "WHERE First_Name like '{0}' " +
+                                        "AND Last_Name like '{1}'", first, last);
+            return sSQL;
+        }
         #endregion
 
         #region Update queries
@@ -92,10 +107,10 @@ namespace Assignment6AirlineReservation
         /// <param name="flight">The flight object</param>
         /// <param name="seatNumber">The seat assigned to the passenger</param>
         /// <returns>SQL string</returns>
-        public String CreateFlightPassengerLink(clsFlight flight, clsPassenger passenger, int seatNumber)
+        public String CreateFlightPassengerLink(String flightID, clsPassenger passenger, int seatNumber)
         {
             String sSQL = String.Format("INSERT INTO Flight_Passenger_Link(Flight_ID, Passenger_ID, Seat_Number) " +
-                                        "VALUES({0}, {1}, {2})", flight.FlightID, passenger.PassengerID, seatNumber);
+                                        "VALUES({0}, {1}, {2})", flightID, passenger.PassengerID, seatNumber);
             return sSQL;
         }
         #endregion
@@ -119,11 +134,11 @@ namespace Assignment6AirlineReservation
         /// <param name="flight">The flight object</param>
         /// <param name="passenger">The passenger object</param>
         /// <returns></returns>
-        public String DeleteFlightPassengerLink(clsFlight flight, clsPassenger passenger)
+        public String DeleteFlightPassengerLink(String flightID, clsPassenger passenger)
         {
             String sSQL = String.Format("DELETE FROM Flight_Passenger_Link " +
                                         "WHERE Flight_ID = {0} " +
-                                        "AND Passenger_ID = {1}", flight.FlightID, passenger.PassengerID);
+                                        "AND Passenger_ID = {1}", flightID, passenger.PassengerID);
             return sSQL;
         }
         #endregion

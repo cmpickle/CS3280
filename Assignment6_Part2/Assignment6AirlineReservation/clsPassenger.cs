@@ -9,7 +9,7 @@ namespace Assignment6AirlineReservation
     /// <summary>
     /// Contains all information about passenger objects
     /// </summary>
-    class clsPassenger
+    public class clsPassenger
     {
         #region class fields
         /// <summary>

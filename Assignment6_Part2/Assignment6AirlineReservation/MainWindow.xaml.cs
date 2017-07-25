@@ -49,9 +49,19 @@ namespace Assignment6AirlineReservation
         clsPassenger selectedPassenger;
 
         /// <summary>
+        /// The passenger getting inserted
+        /// </summary>
+        clsPassenger addPassenger;
+
+        /// <summary>
         /// Set to true when a passenger's seat is being changed
         /// </summary>
         bool changeSeat = false;
+
+        /// <summary>
+        /// Set to true when adding a new passenger
+        /// </summary>
+        bool addingPassenger = false;
 
         /// <summary>
         /// The blue color brush
@@ -178,7 +188,7 @@ namespace Assignment6AirlineReservation
         {
             try
             {
-                wndAddPass = new wndAddPassenger();
+                wndAddPass = new wndAddPassenger(this);
                 wndAddPass.ShowDialog();
             }
             catch (Exception ex)
@@ -204,7 +214,20 @@ namespace Assignment6AirlineReservation
                     clsPassenger clickedPassenger = flightLogic.GetPassengerBySeat(currentFlightID, seat.Content.ToString());
                     if (clickedPassenger == null)
                     {
-                        flightLogic.UpdatePassengerSeatNumber(currentFlightID, selectedPassenger.PassengerID.ToString(), seat.Content.ToString());
+                        if(addingPassenger)
+                        {
+                            addPassenger.PassengerID = Convert.ToInt32(flightLogic.GetPassengerID(addPassenger.FirstName, addPassenger.LastName));
+
+                            flightLogic.InsertPassenger(currentFlightID, addPassenger);
+
+                            addingPassenger = false;
+
+                            flightLogic.UpdatePassengerSeatNumber(currentFlightID, addPassenger.PassengerID.ToString(), seat.Content.ToString());
+                        }
+                        else
+                        {
+                            flightLogic.UpdatePassengerSeatNumber(currentFlightID, selectedPassenger.PassengerID.ToString(), seat.Content.ToString());
+                        }
 
                         ExitChangeSeatMode();
 
@@ -247,6 +270,17 @@ namespace Assignment6AirlineReservation
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                     MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
+        }
+        #endregion
+
+        #region public methods
+        public void AddPassenger(clsPassenger passenger)
+        {
+            addPassenger = passenger;
+
+            addingPassenger = true;
+
+            EnterChangeSeatMode();
         }
         #endregion
 

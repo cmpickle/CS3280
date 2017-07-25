@@ -172,6 +172,50 @@ namespace Assignment6AirlineReservation
 
             return seatChanged;
         }
+
+        /// <summary>
+        /// Used to insert a passenger to a flight
+        /// </summary>
+        /// <param name="passenger">The new passenger</param>
+        /// <returns>If the passenger was inserted</returns>
+        public bool InsertPassenger(String flightID, clsPassenger passenger)
+        {
+            try
+            {
+                clsData.ExecuteNonQuery(sql.CreatePassenger(passenger));
+
+                clsData.ExecuteNonQuery(sql.CreateFlightPassengerLink(flightID, passenger, 0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Gets the passenger's ID for the passenger with the given name
+        /// </summary>
+        /// <param name="first">The passenger's first name</param>
+        /// <param name="last">The passenger's last name</param>
+        /// <returns>The passenger's ID</returns>
+        public String GetPassengerID(String first, String last)
+        {
+            DataSet ds = new DataSet();
+            int iRet = 0;
+
+            try
+            {
+                ds = clsData.ExecuteSQLStatement(sql.GetPassengerID(first, last), ref iRet);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+
+            return ds.Tables[0].Rows[0][0].ToString();
+        }
         #endregion
     }
 }

@@ -20,21 +20,40 @@ namespace Assignment6AirlineReservation
     /// </summary>
     public partial class wndAddPassenger : Window
     {
+        #region class fields
+        /// <summary>
+        /// Reference to the main window to pass back passenger object
+        /// </summary>
+        MainWindow mainWindow;
+
+        /// <summary>
+        /// The new passenger being created
+        /// </summary>
+        clsPassenger passenger;
+        #endregion
+
+        #region constructor
         /// <summary>
         /// constructor for the add passenger window
         /// </summary>
-        public wndAddPassenger()
+        public wndAddPassenger(MainWindow window)
         {
             try
             {
+                mainWindow = window;
+
                 InitializeComponent();
+
+                passenger = new clsPassenger();
             }
             catch (Exception ex)
             {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
+        #endregion
 
+        #region event handlers
         /// <summary>
         /// only allows letters to be input
         /// </summary>
@@ -63,6 +82,50 @@ namespace Assignment6AirlineReservation
         }
 
         /// <summary>
+        /// The event handler for the Save button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
+        private void cmdSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                passenger.FirstName = txtFirstName.Text;
+
+                passenger.LastName = txtLastName.Text;
+
+                mainWindow.AddPassenger(passenger);
+
+                this.Close();
+            }
+            catch (System.Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// The event handler for the Cancel button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
+        private void cmdCancel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.Close();
+            }
+            catch (System.Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+        #endregion
+
+        #region error handling
+        /// <summary>
         /// exception handler that shows the error
         /// </summary>
         /// <param name="sClass">the class</param>
@@ -79,10 +142,6 @@ namespace Assignment6AirlineReservation
                 System.IO.File.AppendAllText("C:\\Error.txt", Environment.NewLine + "HandleError Exception: " + ex.Message);
             }
         }
-
-        private void cmdSave_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        #endregion
     }
 }
