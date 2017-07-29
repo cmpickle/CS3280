@@ -332,6 +332,8 @@ namespace Assignment7
         {
             try
             {
+                logic.OutputFileName = txtOutputToFile.Text;
+
                 logic.OutputToFile();
 
                 btnOutputToFile.IsEnabled = false;
@@ -353,11 +355,18 @@ namespace Assignment7
         /// <summary>
         /// Updates the UI to show that the save finished
         /// </summary>
-        public void DisplaySaveFinished()
+        public void UpdateDisplay(String message)
         {
             try
             {
-                txtOutputToFile.Text = fileName;
+                if(message == "")
+                {
+                    txtOutputToFile.Text = fileName;
+                }
+                else
+                {
+                    txtOutputToFile.Text = message;
+                }
 
                 btnOutputToFile.IsEnabled = true;
             }

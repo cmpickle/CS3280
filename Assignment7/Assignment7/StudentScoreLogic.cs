@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -34,7 +35,20 @@ namespace Assignment7
         /// </summary>
         public MainWindow mainWindow;
 
-        private delegate void DisplayFileSaved();
+        /// <summary>
+        /// Delegate for updating file save messages
+        /// </summary>
+        private delegate void UpdateFileMessage();
+
+        /// <summary>
+        /// Message to send to Output File textbox
+        /// </summary>
+        private String updateMessage;
+
+        /// <summary>
+        /// The name of the output string
+        /// </summary>
+        public String OutputFileName { get; set; }
         #endregion
 
         #region constructor
@@ -305,13 +319,13 @@ namespace Assignment7
         }
 
         /// <summary>
-        /// Updates the Main Window UI to show that the file has been saved
+        /// Updates the Main Window UI to show the results of the save opperation
         /// </summary>
-        public void DisplaySaveFisnished()
+        public void UpdateDisplay()
         {
             try
             {
-                mainWindow.DisplaySaveFinished();
+                mainWindow.UpdateDisplay(updateMessage);
             }
             catch (Exception ex)
             {
@@ -322,10 +336,10 @@ namespace Assignment7
         }
         #endregion
 
+        #region private methods
         /// <summary>
         /// Saves the file
         /// </summary>
-        #region private methods
         private void saveFile()
         {
             try
@@ -333,7 +347,23 @@ namespace Assignment7
                 // Used to demonstrate a task that takes time to complete its work
                 Thread.Sleep(2000);
 
-                mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, new DisplayFileSaved(DisplaySaveFisnished));
+                String filePath = @"C:\Users\Public" + "\\" + OutputFileName;
+
+                if (!File.Exists(filePath)) {
+                    using (StreamWriter FileWrite = new StreamWriter(filePath))
+                    {
+                        FileWrite.Write(GenerateDisplay(GenerateHeader()));
+                    }
+                }
+                else
+                {
+                    updateMessage = "File Already Exists";
+                    mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateFileMessage(UpdateDisplay));
+                    return;
+                }
+
+                updateMessage = "File Saved";
+                mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, new UpdateFileMessage(UpdateDisplay));
             }
             catch (Exception ex)
             {
