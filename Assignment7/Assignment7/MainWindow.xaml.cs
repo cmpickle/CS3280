@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 /// value and display in in a scrollable text box. This for may be reset with the reset 
 /// button.
 /// </summary>
-namespace Assignment3
+namespace Assignment7
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -28,18 +28,7 @@ namespace Assignment3
     public partial class MainWindow : Window
     {
         #region Class level variables
-        /// <summary>
-        /// The names of the students
-        /// </summary>
-        String[] studentNames;
-        /// <summary>
-        /// The scores of the students stored in each student's index
-        /// </summary>
-        int[,] studentScores;
-        /// <summary>
-        /// The index of the student that is currently being edited
-        /// </summary>
-        int activeStudent = 0;
+        StudentScoreLogic logic = new StudentScoreLogic();
         #endregion
 
         #region Constructor
@@ -61,7 +50,7 @@ namespace Assignment3
         }
         #endregion
 
-        #region OnClickListeners
+        #region Event Handlers
         /// <summary>
         /// The onClick listenter for "Submit Counts"
         /// 
@@ -74,7 +63,7 @@ namespace Assignment3
         {
             try
             {
-                activeStudent = 0;
+                logic.ActiveStudent = 0;
                 lblStudentName.Content = "Student #1";
                 int numStudents;
                 int numAssignments;
@@ -99,20 +88,7 @@ namespace Assignment3
                     lblAssignmentsNumError.Visibility = Visibility.Collapsed;
                 }
 
-                studentNames = new String[numStudents];
-                for (int i = 0; i < numStudents; ++i)
-                {
-                    studentNames[i] = String.Format("Student #{0}", i + 1);
-                }
-
-                studentScores = new int[numStudents, numAssignments];
-                for (int i = 0; i < numStudents; ++i)
-                {
-                    for (int j = 0; j < numAssignments; ++j)
-                    {
-                        studentScores[i, j] = 0;
-                    }
-                }
+                logic.PopulateStudentInfo(numStudents, numAssignments);
 
                 UpdateFieldsForCount();
 
@@ -158,7 +134,7 @@ namespace Assignment3
         {
             try
             {
-                activeStudent = 0;
+                logic.ActiveStudent = 0;
 
                 updateStudentNamelbl();
             }
@@ -181,11 +157,11 @@ namespace Assignment3
         {
             try
             {
-                if (activeStudent < 1)
+                if (logic.ActiveStudent < 1)
                 {
                     return;
                 }
-                --activeStudent;
+                --logic.ActiveStudent;
 
                 updateStudentNamelbl();
             }
@@ -208,11 +184,11 @@ namespace Assignment3
         {
             try
             {
-                if (activeStudent > studentNames.Length - 2)  //one less for indices and one more less because the last element shouldn't go to the "next" student
+                if (logic.ActiveStudent > logic.GetNumberOfStudents() - 2)  //one less for indices and one more less because the last element shouldn't go to the "next" student
                 {
                     return;
                 }
-                ++activeStudent;
+                ++logic.ActiveStudent;
 
                 updateStudentNamelbl();
             }
@@ -235,7 +211,7 @@ namespace Assignment3
         {
             try
             {
-                activeStudent = studentNames.Length - 1; // -1 since it is indices 
+                logic.ActiveStudent = logic.GetNumberOfStudents() - 1; // -1 since it is indices 
 
                 updateStudentNamelbl();
             }
@@ -258,7 +234,7 @@ namespace Assignment3
         {
             try
             {
-                studentNames[activeStudent] = txtStudentName.Text;
+                logic.StudentNames[logic.ActiveStudent] = txtStudentName.Text;
 
                 txtStudentName.Text = "";
 
@@ -285,7 +261,7 @@ namespace Assignment3
             {
                 int assignNum;
                 int assignScore;
-                if (!int.TryParse(txtEnterAssignmentNum.Text, out assignNum) || assignNum < 1 || assignNum > studentScores.GetLength(1))
+                if (!int.TryParse(txtEnterAssignmentNum.Text, out assignNum) || assignNum < 1 || assignNum > logic.StudentScores.GetLength(1))
                 {
                     lblErrorEnterAssignmentNum.Visibility = Visibility.Visible;
                     return;
@@ -299,7 +275,7 @@ namespace Assignment3
                 }
                 lblErrorEnterAssignmentScore.Visibility = Visibility.Collapsed;
 
-                studentScores[activeStudent, assignNum - 1] = assignScore;
+                logic.StudentScores[logic.ActiveStudent, assignNum - 1] = assignScore;
 
                 txtEnterAssignmentNum.Text = "";
                 txtAssignmentScore.Text = "";
@@ -326,77 +302,26 @@ namespace Assignment3
             {
                 AddHeaderToDisplayScores();
 
-                String display = txtDisplayedScores.Text;
+                txtDisplayedScores.Text = logic.GenerateDisplay(txtDisplayedScores.Text);
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
+                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
 
-                for (int i = 0; i < studentNames.Length; ++i)
-                {
-                    double sum = 0;
-                    display += Environment.NewLine;
+        /// <summary>
+        /// The Event handler for the Output to File button
+        /// </summary>
+        /// <param name="sender">The sender object</param>
+        /// <param name="e">The event args</param>
+        private void btnOutputToFile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
 
-                    display += studentNames[i] + "\t\t";
-
-                    for (int j = 0; j < studentScores.GetLength(1); ++j)
-                    {
-                        display += studentScores[i, j] + "\t";
-                        sum += studentScores[i, j];
-                    }
-
-                    double average = (sum / studentScores.GetLength(1));
-                    display += average + "\t";
-
-                    String letterGrade;
-                    if (average >= 93)
-                    {
-                        letterGrade = "A";
-                    }
-                    else if (average >= 90)
-                    {
-                        letterGrade = "A-";
-                    }
-                    else if (average >= 87)
-                    {
-                        letterGrade = "B+";
-                    }
-                    else if (average >= 83)
-                    {
-                        letterGrade = "B";
-                    }
-                    else if (average >= 80)
-                    {
-                        letterGrade = "B-";
-                    }
-                    else if (average >= 77)
-                    {
-                        letterGrade = "C=";
-                    }
-                    else if (average >= 73)
-                    {
-                        letterGrade = "C";
-                    }
-                    else if (average >= 70)
-                    {
-                        letterGrade = "C-";
-                    }
-                    else if (average >= 67)
-                    {
-                        letterGrade = "D+";
-                    }
-                    else if (average >= 63)
-                    {
-                        letterGrade = "D";
-                    }
-                    else if (average >= 60)
-                    {
-                        letterGrade = "D-";
-                    }
-                    else
-                    {
-                        letterGrade = "F";
-                    }
-                    display += letterGrade;
-                }
-
-                txtDisplayedScores.Text = display;
             }
             catch (Exception ex)
             {
@@ -416,9 +341,9 @@ namespace Assignment3
         {
             try
             {
-                lblStudentName.Content = studentNames[0];
-                lblEnterAssignmentNum.Content = String.Format("Enter Assignment Number (1-{0}):", studentScores.GetLength(1));
-                lblErrorEnterAssignmentNum.Content = String.Format("*Enter an assignment number from 1 to {0}", studentScores.GetLength(1));
+                lblStudentName.Content = logic.StudentNames[0];
+                lblEnterAssignmentNum.Content = String.Format("Enter Assignment Number (1-{0}):", logic.GetStudentAssignmentsCount());
+                lblErrorEnterAssignmentNum.Content = String.Format("*Enter an assignment number from 1 to {0}", logic.GetStudentAssignmentsCount());
 
                 AddHeaderToDisplayScores();
             }
@@ -440,14 +365,7 @@ namespace Assignment3
         {
             try
             {
-                String display = "STUDENT\t\t";
-                for (int i = 0; i < studentScores.GetLength(1); ++i)
-                {
-                    display += "#" + (i + 1) + "\t";
-                }
-                display += "AVG\tGRADE";
-
-                txtDisplayedScores.Text = display;
+                txtDisplayedScores.Text = logic.GenerateHeader();
             }
             catch (Exception ex)
             {
@@ -516,7 +434,7 @@ namespace Assignment3
         /// </summary>
         private void updateStudentNamelbl()
         {
-            lblStudentName.Content = studentNames[activeStudent];
+            lblStudentName.Content = logic.GetActiveStudentName();
         }
 
         /// <summary>
@@ -526,9 +444,7 @@ namespace Assignment3
         {
             try
             {
-                studentNames = null;
-                studentScores = null;
-                activeStudent = 0;
+                logic.Reset();
 
                 DisableStudentSections();
 
