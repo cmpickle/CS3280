@@ -28,7 +28,15 @@ namespace Assignment7
     public partial class MainWindow : Window
     {
         #region Class level variables
-        StudentScoreLogic logic = new StudentScoreLogic();
+        /// <summary>
+        /// Logic for the Students and their scores
+        /// </summary>
+        StudentScoreLogic logic;
+
+        /// <summary>
+        /// The file name that the user saved their results to
+        /// </summary>
+        String fileName;
         #endregion
 
         #region Constructor
@@ -40,6 +48,9 @@ namespace Assignment7
             try
             {
                 InitializeComponent();
+
+                logic = new StudentScoreLogic();
+                logic.AttachWindow(this);
             }
             catch (Exception ex)
             {
@@ -321,13 +332,40 @@ namespace Assignment7
         {
             try
             {
+                logic.OutputToFile();
 
+                btnOutputToFile.IsEnabled = false;
+
+                fileName = txtOutputToFile.Text;
+
+                txtOutputToFile.Text = "Writing to File.";
             }
             catch (Exception ex)
             {
                 //This is the top level method so we want to handle the exception
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+        #endregion
+
+        #region public methods
+        /// <summary>
+        /// Updates the UI to show that the save finished
+        /// </summary>
+        public void DisplaySaveFinished()
+        {
+            try
+            {
+                txtOutputToFile.Text = fileName;
+
+                btnOutputToFile.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
         #endregion
@@ -350,8 +388,8 @@ namespace Assignment7
             catch (Exception ex)
             {
                 //This is the top level method so we want to handle the exception
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
-                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -370,8 +408,8 @@ namespace Assignment7
             catch (Exception ex)
             {
                 //This is the top level method so we want to handle the exception
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
-                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -393,12 +431,14 @@ namespace Assignment7
                 txtAssignmentScore.IsEnabled = true;
                 btnSaveScore.IsEnabled = true;
                 btnDisplayScores.IsEnabled = true;
+                btnOutputToFile.IsEnabled = true;
+                txtOutputToFile.IsEnabled = true;
             }
             catch (Exception ex)
             {
                 //This is the top level method so we want to handle the exception
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
-                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -420,12 +460,14 @@ namespace Assignment7
                 txtAssignmentScore.IsEnabled = false;
                 btnSaveScore.IsEnabled = false;
                 btnDisplayScores.IsEnabled = false;
+                btnOutputToFile.IsEnabled = false;
+                txtOutputToFile.IsEnabled = false;
             }
             catch (Exception ex)
             {
                 //This is the top level method so we want to handle the exception
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
-                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -434,7 +476,16 @@ namespace Assignment7
         /// </summary>
         private void updateStudentNamelbl()
         {
-            lblStudentName.Content = logic.GetActiveStudentName();
+            try
+            {
+                lblStudentName.Content = logic.GetActiveStudentName();
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -466,8 +517,8 @@ namespace Assignment7
             catch (Exception ex)
             {
                 //This is the top level method so we want to handle the exception
-                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name,
-                            MethodInfo.GetCurrentMethod().Name, ex.Message);
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
         #endregion

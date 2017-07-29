@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Assignment7
@@ -27,6 +28,13 @@ namespace Assignment7
         /// The index of the student that is currently being edited
         /// </summary>
         public int ActiveStudent { get; set; }
+
+        /// <summary>
+        /// Reference to the Main Window
+        /// </summary>
+        public MainWindow mainWindow;
+
+        private delegate void DisplayFileSaved();
         #endregion
 
         #region constructor
@@ -56,19 +64,28 @@ namespace Assignment7
         /// <param name="numAssignments">The number of assignments to populate</param>
         public void PopulateStudentInfo(int numStudents, int numAssignments)
         {
-            StudentNames = new String[numStudents];
-            for (int i = 0; i < numStudents; ++i)
+            try
             {
-                StudentNames[i] = String.Format("Student #{0}", i + 1);
-            }
-
-            StudentScores = new int[numStudents, numAssignments];
-            for (int i = 0; i < numStudents; ++i)
-            {
-                for (int j = 0; j < numAssignments; ++j)
+                StudentNames = new String[numStudents];
+                for (int i = 0; i < numStudents; ++i)
                 {
-                    StudentScores[i, j] = 0;
+                    StudentNames[i] = String.Format("Student #{0}", i + 1);
                 }
+
+                StudentScores = new int[numStudents, numAssignments];
+                for (int i = 0; i < numStudents; ++i)
+                {
+                    for (int j = 0; j < numAssignments; ++j)
+                    {
+                        StudentScores[i, j] = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -81,72 +98,81 @@ namespace Assignment7
         {
             String display = preDisplay;
 
-            for (int i = 0; i < StudentNames.Length; ++i)
+            try
             {
-                double sum = 0;
-                display += Environment.NewLine;
+                for (int i = 0; i < StudentNames.Length; ++i)
+                {
+                    double sum = 0;
+                    display += Environment.NewLine;
 
-                display += StudentNames[i] + "\t\t";
+                    display += StudentNames[i] + "\t\t";
 
-                for (int j = 0; j < StudentScores.GetLength(1); ++j)
-                {
-                    display += StudentScores[i, j] + "\t";
-                    sum += StudentScores[i, j];
-                }
+                    for (int j = 0; j < StudentScores.GetLength(1); ++j)
+                    {
+                        display += StudentScores[i, j] + "\t";
+                        sum += StudentScores[i, j];
+                    }
 
-                double average = (sum / StudentScores.GetLength(1));
-                display += average + "\t";
+                    double average = (sum / StudentScores.GetLength(1));
+                    display += average + "\t";
 
-                String letterGrade;
-                if (average >= 93)
-                {
-                    letterGrade = "A";
+                    String letterGrade;
+                    if (average >= 93)
+                    {
+                        letterGrade = "A";
+                    }
+                    else if (average >= 90)
+                    {
+                        letterGrade = "A-";
+                    }
+                    else if (average >= 87)
+                    {
+                        letterGrade = "B+";
+                    }
+                    else if (average >= 83)
+                    {
+                        letterGrade = "B";
+                    }
+                    else if (average >= 80)
+                    {
+                        letterGrade = "B-";
+                    }
+                    else if (average >= 77)
+                    {
+                        letterGrade = "C=";
+                    }
+                    else if (average >= 73)
+                    {
+                        letterGrade = "C";
+                    }
+                    else if (average >= 70)
+                    {
+                        letterGrade = "C-";
+                    }
+                    else if (average >= 67)
+                    {
+                        letterGrade = "D+";
+                    }
+                    else if (average >= 63)
+                    {
+                        letterGrade = "D";
+                    }
+                    else if (average >= 60)
+                    {
+                        letterGrade = "D-";
+                    }
+                    else
+                    {
+                        letterGrade = "F";
+                    }
+                    display += letterGrade;
                 }
-                else if (average >= 90)
-                {
-                    letterGrade = "A-";
-                }
-                else if (average >= 87)
-                {
-                    letterGrade = "B+";
-                }
-                else if (average >= 83)
-                {
-                    letterGrade = "B";
-                }
-                else if (average >= 80)
-                {
-                    letterGrade = "B-";
-                }
-                else if (average >= 77)
-                {
-                    letterGrade = "C=";
-                }
-                else if (average >= 73)
-                {
-                    letterGrade = "C";
-                }
-                else if (average >= 70)
-                {
-                    letterGrade = "C-";
-                }
-                else if (average >= 67)
-                {
-                    letterGrade = "D+";
-                }
-                else if (average >= 63)
-                {
-                    letterGrade = "D";
-                }
-                else if (average >= 60)
-                {
-                    letterGrade = "D-";
-                }
-                else
-                {
-                    letterGrade = "F";
-                }
-                display += letterGrade;
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
 
             return display;
@@ -157,9 +183,18 @@ namespace Assignment7
         /// </summary>
         public void Reset()
         {
-            StudentNames = null;
-            StudentScores = null;
-            ActiveStudent = 0;
+            try
+            {
+                StudentNames = null;
+                StudentScores = null;
+                ActiveStudent = 0;
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -168,7 +203,16 @@ namespace Assignment7
         /// <returns>String name</returns>
         public String GetActiveStudentName()
         {
-            return StudentNames[ActiveStudent];
+            try
+            {
+                return StudentNames[ActiveStudent];
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -177,7 +221,16 @@ namespace Assignment7
         /// <returns>int length</returns>
         public int GetStudentAssignmentsCount()
         {
-            return StudentScores.GetLength(1);
+            try
+            {
+                return StudentScores.GetLength(1);
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -187,11 +240,21 @@ namespace Assignment7
         public String GenerateHeader()
         {
             String display = "STUDENT\t\t";
-            for (int i = 0; i < GetStudentAssignmentsCount(); ++i)
+
+            try
             {
-                display += "#" + (i + 1) + "\t";
+                for (int i = 0; i < GetStudentAssignmentsCount(); ++i)
+                {
+                    display += "#" + (i + 1) + "\t";
+                }
+                display += "AVG\tGRADE";
             }
-            display += "AVG\tGRADE";
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
 
             return display;
         }
@@ -203,6 +266,81 @@ namespace Assignment7
         public int GetNumberOfStudents()
         {
             return StudentNames.Length;
+        }
+
+        /// <summary>
+        /// Outputs the students and their scores to a file.
+        /// </summary>
+        public void OutputToFile()
+        {
+            try
+            {
+                Thread writeFileThread = new Thread(new ThreadStart(saveFile));
+                writeFileThread.Start();
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gives the student score logic a reference to the Main Window to update its UI
+        /// </summary>
+        /// <param name="mainWindow"></param>
+        public void AttachWindow(MainWindow mainWindow)
+        {
+            try
+            {
+                this.mainWindow = mainWindow;
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates the Main Window UI to show that the file has been saved
+        /// </summary>
+        public void DisplaySaveFisnished()
+        {
+            try
+            {
+                mainWindow.DisplaySaveFinished();
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Saves the file
+        /// </summary>
+        #region private methods
+        private void saveFile()
+        {
+            try
+            {
+                // Used to demonstrate a task that takes time to complete its work
+                Thread.Sleep(2000);
+
+                mainWindow.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, new DisplayFileSaved(DisplaySaveFisnished));
+            }
+            catch (Exception ex)
+            {
+                //This is the top level method so we want to handle the exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
         #endregion
     }

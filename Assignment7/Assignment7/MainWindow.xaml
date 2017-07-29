@@ -93,12 +93,13 @@
             </StackPanel>
         </GroupBox>
 
-        <StackPanel Grid.Row="4" HorizontalAlignment="Center" Grid.Column="1" Margin="39,0,123,0" Orientation="Horizontal" Width="264">
-            <Button Name="btnDisplayScores" Content="Display Scores" Height="Auto" Width="90" Margin="10" IsEnabled="False" Click="btnDisplayScores_Click" />
-            <Button Name="btnOutputToFile" Content="Output to File" Height="Auto" Width="90" Margin="10" IsEnabled="False" Click="btnOutputToFile_Click" />
-        </StackPanel>
+            <StackPanel Grid.Row="4" HorizontalAlignment="Center" Grid.Column="1" Margin="39,0,24,0" Orientation="Horizontal" Width="363">
+                <Button Name="btnDisplayScores" Content="Display Scores" Height="Auto" Width="90" Margin="10" IsEnabled="False" Click="btnDisplayScores_Click" />
+                <Button Name="btnOutputToFile" Content="Output to File" Height="Auto" Width="90" Margin="10" IsEnabled="False" Click="btnOutputToFile_Click" />
+                <TextBox Name="txtOutputToFile" Text="StudentScores.txt" Margin="10" Width="120" IsEnabled="False"/>
+            </StackPanel>
 
-        <ScrollViewer Width="510" Height="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,0,1,0">
+            <ScrollViewer Width="510" Height="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,0,1,0">
             <TextBlock Name="txtDisplayedScores" Height="150" HorizontalAlignment="Stretch" Margin="10" Text="STUDENT&#x09;&#x09;#1&#x09;#2&#x09;#3&#x09;#4&#x09;#5&#x09;AVG&#x09;GRADE" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
         </ScrollViewer>
 
